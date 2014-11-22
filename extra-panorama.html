@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>Demo - StitchedPanoramaViewer</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<link rel="stylesheet" type="text/css" href="css/demos.css" />
+	</head>
+
+	<body>
+		<script type="text/javascript" src="http://gigapixelartzoom.com/scripts/jspanoviewer.js"></script>
+
+		<script type="text/javascript" src="js/getUrlParams.js"></script>
+		<script type="text/javascript">var _useCompileJS = getUrlParams().compiled === "1";</script>
+		<script type="text/javascript" src="js/embedScripts.js"></script>
+
+		<script type="text/javascript" src="js/pano/StitchedPanoViewer.js"></script>
+
+		<h1>StitchedPanoramaViewer</h1>
+
+		<div id="container"></div>
+
+		<script type="text/javascript">
+		var _container = document.getElementById("container");
+		_container.style.width  = window.innerWidth *0.85 + "px";
+		_container.style.height = window.innerHeight*0.85 + "px";
+
+		var _viewer = new Photosynth.StitchedPanoViewer(_container, {
+			guid: "c7065bb6-0fc6-4a05-9155-158c55ade5a8"
+			//url: "synths/localDotPano/" //path to an unzipped .pano file :)
+		});
+		</script>
+	</body>
+</html>

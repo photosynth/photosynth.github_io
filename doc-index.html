@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>Photosynth SDK Reference</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=10,chrome=1">
+		<link rel="stylesheet" href="css/doc.css">
+	</head>
+
+	<body>
+
+		<script type="text/javascript" src="js/getUrlParams.js"></script>
+		<script type="text/javascript">var _useCompileJS = getUrlParams().compiled === "1";</script>
+		<script type="text/javascript" src="js/embedScripts.js"></script>
+
+		<div id="page-container">
+
+			<h1>Photosynth SDK Reference</h1>
+
+			<p>This section contains the reference documentation for the Photosynth.PS2Viewer. This viewer is the SDK version of the internal PS.Packet.Player class. The annotation viewer/editor and virtual tour viewer are also built ontop of their corresponding internal classes.</p>
+			<p><strong>Photosynth</strong> is the namespace of classes that you want to use: </p>
+
+			<ul>
+				<li><a href="doc-ps2viewer.html">Photosynth.PS2Viewer(</a> <a href="doc-ps2viewer-options.html">options</a> ) Class (render a synth)
+					<br><em>built on top of PS.Packet.Player</em>.
+				</li>
+				<li><a href="doc-ps2annotationviewer.html">Photosynth.PS2AnnotationViewer(</a> <a href="doc-ps2annotationviewer-options.html">options</a> ) Class (is connected to a PS2Viewer and render annotations on top)
+					<br><em>built on top of PS.Packet.Annotation.Viewer</em>.
+				</li>
+				<li><a href="doc-ps2annotationeditor.html">Photosynth.PS2AnnotationEditor()</a> Class (is connected to a PS2AnnotationViewer and allow annotation creation - only works if the viewer size is (window.innerWidth, window.innerHeight): use iframe if you want a specific size.
+					<br><em>built on top of PS.Packet.Annotation.Editor</em>.
+				</li>
+				<li>Photosynth.SynthTourViewer Class (is an experimental viewer to render a tour of connected synths - does only support one go back in history: no stack)
+					<br><em>built on top of Photosynth.PS2Viewer and Photosynth.PS2AnnotationViewer and is using PS.Packet.SynthConnectionManager.</em>.
+				</li>
+			</ul>
+
+			<p><strong>PS</strong> is the namespace for internal classes that might be interesting to edit if you are more adventurous :-).</p>
+
+			<ul>
+				<li>PS.Packet.Player (render a synth)</li>
+				<li>PS.Packet.Annotation.Viewer (is connected to a PS.Packet.Player and render annotations on top)</li>
+				<li>PS.Packet.Annotation.Editor (is connected to a PS.Packet.Annotation.Viewer and allow annotation creation - same restriction as Photosynth.PS2AnnotationEditor)</li>
+			</ul>
+
+			<p>The photosynth open source package comes also with three storage solutions for annotations:<p>
+
+			<table class="sdk-description" style="width: 1000px;">
+				<tr>
+					<th>Source</th>
+					<th>Read</th>
+					<th>Write</th>
+					<th>Annotations</th>
+					<th>Connections</th>
+					<th>Description</th>
+				</tr>
+				<tr>
+					<td>PS.API.SimpleStaticStorage</td>
+					<td>Yes</td>
+					<td>No</td>
+					<td>Yes</td>
+					<td>Yes</td>
+					<td>Read annotations from a static json file, it can be produced by:
+						<ul>
+							<li>using debug graph viewer (download json button)</li>
+							<li>or by going to http://localhost/3000/synths and save the page as json (you will need to clean it and remove the internal mongodb ids)</li>
+						</ul>
+					</td>
+				</tr>
+				<tr>
+					<td>PS.API.SimpleAnnotationProxy</td>
+					<td>Yes</td>
+					<td>No</td>
+					<td>Yes</td>
+					<td>No</td>
+					<td>Read annotations directly from photosynth.net.</td>
+				</tr>
+				<tr>
+					<td>PS.API.SimpleAnnotationStorage</td>
+					<td>Yes</td>
+					<td>Yes</td>
+					<td>Yes</td>
+					<td>Yes</td>
+					<td>Read annotations from a Node.js + mongodb experimental storage.</td>
+				</tr>
+			</table>
+	</div>
+
+	</body>
+</html>

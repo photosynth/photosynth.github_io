@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>Tween.js</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<link rel="stylesheet" type="text/css" href="css/demos.css" />
+		<style type="text/css">
+			#canvas {
+				border: 1px solid green;
+				width: 480px;
+				height: 480px;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<script type="text/javascript" src="js/getUrlParams.js"></script>
+		<script type="text/javascript">var _useCompileJS = getUrlParams().compiled === "1";</script>
+		<script type="text/javascript" src="js/embedScripts.js"></script>
+
+		<h1>Tween.js</h1>
+		<h3>Tween easing demo</h3>
+
+		<canvas id="canvas" width=480 height=480></canvas>
+		<select onchange="redraw();" id="interpolators"></select>
+		<select onchange="redraw();" id="methods"></select>
+
+		<script type="text/javascript">
+			var _interpolators = ["Bounce", "Elastic", "Linear", "Pow", "Expo", "Circ", "Sine", "Back", "Quad", "Cubic", "Quart", "Quint"];
+			var _methods = ["easeIn", "easeOut", "easeInOut"];
+
+			var _interpolatorSelect = document.getElementById("interpolators");
+			var _methodSelect = document.getElementById("methods");
+
+			_interpolators.forEach(function(name) {
+				_interpolatorSelect.appendChild(new Option(name, name));
+			});
+			_methods.forEach(function(name) {
+				_methodSelect.appendChild(new Option(name, name));
+			});
+
+			var _ctx = document.getElementById("canvas").getContext("2d");
+			var _width  = 480;
+			var _height = 480;
+
+			var _spacing = 40;
+
+			_ctx.translate(0, _height);
+			_ctx.scale(1, -1);
+
+			setTimeout(function() {
+				redraw();
+			}, 500);
+
+			function drawAxes() {
+				_ctx.strokeStyle = "green";
+				_ctx.beginPath();
+				_ctx.moveTo(_spacing, _spacing);
+				_ctx.lineTo(_width-_spacing+10, _spacing);
+				_ctx.moveTo(_spacing, _spacing);
+				_ctx.lineTo(_spacing, _height-_spacing);
+
+				_ctx.moveTo(_width-_spacing-3+10, _spacing-3);
+				_ctx.lineTo(_width-_spacing-3+10, _spacing+3);
+
+				_ctx.moveTo(_spacing-3, _height-_spacing-3);
+				_ctx.lineTo(_spacing+3, _height-_spacing-3);
+
+				_ctx.stroke();
+			}
+
+			function redraw() {
+				_ctx.clearRect(0, 0, _width, _height);
+				drawAxes();
+				_ctx.beginPath();
+				_ctx.strokeStyle = "black";
+				new PS.Fx.Tween({
+					duration: 1000,
+					from: 0,
+					to: _height-_spacing,
+					transition: PS.Fx.Transitions[_interpolatorSelect.value][_methodSelect.value],
+					onUpdate: function(value, ypercent, xpercent) {
+						_ctx.moveTo(_spacing+xpercent*(_width-_spacing), _spacing);
+						_ctx.lineTo(_spacing+xpercent*(_width-_spacing), _spacing+value);
+						_ctx.stroke();
+					}
+				}).start();
+			}
+		</script>
+	</body>
+</html>

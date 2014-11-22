@@ -1,0 +1,70 @@
+* {
+	margin: 0px;
+	padding: 0px;
+}
+
+html, body {
+	font: 16px 'wf_segoe-ui_light','Segoe UI Light','Segoe WP Light','Segoe UI','Segoe WP',Tahoma,Arial,sans-serif;
+	overflow: none;
+}
+
+#page-container {
+	margin: auto;
+	position: relative;
+	padding-right: 25px;
+	padding-left: 25px;
+}
+
+h1, h2, h3 {
+	font-weight: lighter;
+}
+
+h2 {
+	font: 'Segoe UI Semibold','Segoe UI','Lucida Grande',Verdana,Arial,Helvetica,sans-serif;
+	color: black;
+	margin-bottom: 5px;
+	margin-top: 10px;
+}
+
+ul {
+	margin-left: 30px;
+}
+
+p {
+	margin-top: 15px;
+}
+
+table.sdk-description {
+	font-size: 13px;
+	border-collapse: collapse;
+	font: .875em/1.35 'Segoe UI','Lucida Grande',Verdana,Arial,Helvetica,sans-serif;
+	width: 100%;
+}
+
+table.sdk-description tr td:first-of-type {
+	font-weight: bold;
+}
+
+table.sdk-description th {
+	background-color: #ededed;
+	color: #636363;
+	text-align: left;
+}
+table.sdk-description td, table.sdk-description th {
+	border: 1px solid #bbb;
+	border-bottom: 1px solid #dbdbdb;
+	margin: 10px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-right: 8px;
+	padding-left: 8px;
+}
+table.sdk-description a {
+	text-decoration: none;
+}
+table.sdk-description a:visited , table.sdk-description a:active{
+	color: #03697a;
+}
+table.sdk-description a:hover {
+	color: #3390b1;
+}

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Exif.js</title>
+	<link rel="stylesheet" type="text/css" href="css/demos.css" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<style>
+
+	#list li {
+		width: 200px;
+		display:inline-block;
+		overflow:hidden;
+		vertical-align:top;
+	}
+
+	#list li img{
+		height:20px;
+	}
+
+	#list li div{
+		font-size:10px;
+	}
+
+	#dropTarget {
+		width: 200px;
+		height: 200px;
+		background-color: red;
+		margin-top: 50px;
+		margin-left: 100px;
+		margin-bottom: 50px;
+	}
+
+	.bottom {
+		position: absolute;
+		bottom: 10px;
+	}
+
+	</style>
+</head>
+<body>
+		<script type="text/javascript" src="js/getUrlParams.js"></script>
+		<script type="text/javascript">var _useCompileJS = getUrlParams().compiled === "1";</script>
+		<script type="text/javascript" src="js/embedScripts.js"></script>
+
+	<h1>Exif.js</h1>
+	<h3>Drag jpegs onto the red square!</h3>
+
+	<div id="dropTarget"></div>
+
+	<ul  id="list"></ul>
+	<div id="gps"></div>
+
+	<p class="bottom">Checkout the console for more information.</p>
+
+<script>
+
+	var _dropTarget   = document.getElementById('dropTarget');
+	var _imageListDiv = document.getElementById('list');
+	var _mapListDiv   = document.getElementById('gps');
+
+	_dropTarget.ondragover = function () {
+		this.style.backgroundColor = "green";
+		return false;
+	};
+
+	_dropTarget.ondragleave = function() {
+		this.style.backgroundColor = "red";
+		return false;
+	};
+
+	_dropTarget.ondrop = function(e) {
+
+		_imageListDiv.innerHTML = "";
+		_mapListDiv.innerHTML   = "";
+
+		var startParsingTime = new Date();
+
+		var files = e.dataTransfer.files;
+		var items = Array.prototype.slice.call(files); //converting Filelist object to Array
+
+		//Queueing all images to process to prevent the main thread from hanging
+		var queue = new PS.Utils.Async.Queue(items, {
+			concurrency: 2,
+			onProcess: function(file, callback) {
+				processFile(file, callback);
+			},
+			onComplete: function() {
+				console.log(files.length + " files parsed in " + (new Date()-startParsingTime) + "ms");
+			}
+		});
+
+		this.style.backgroundColor = "red";
+		return false;
+	};
+
+	function processFile(file, callback) {
+
+		if (!file.type.match('image.*')) {
+			callback();
+		}
+		else {
+			var blob = file.slice(0, Math.min(file.size, 131072)); //read the first 128k only has it's enough to contain all Exif information
+			var reader = new FileReader();
+			reader.onload = function(e) {
+
+				if (Exif.isJpeg(e.target.result)) {
+
+					Exif.parse(e.target.result, {
+						onParsed: function(exifInfo) {
+
+							//gps
+							if (exifInfo.hasGPS()) {
+								var coord = exifInfo.getGPSCoord();
+								_mapListDiv.innerHTML += "<img src='http://api.tiles.virtualearth.net/api/GetMap.ashx?ppl="+coord.latitude+","+coord.longitude+"&dcl=1&w=300&h=150&z=15&b=h' alt='' />";
+							}
+
+							//capture date
+							if (exifInfo.hasCapturedDate()) {
+								var date = exifInfo.getCapturedDate();
+							}
+
+							//thumbnail
+							if (exifInfo.hasThumbnail()) {
+								var blob = exifInfo.getThumbnailBlob();
+								var img = new Image();
+								img.onload = function() {
+									_imageListDiv.appendChild(this);
+								};
+								img.src = URL.createObjectURL(blob);
+							}
+
+							//exif
+							console.log(exifInfo.toJSON());
+
+							callback();
+						},
+						onError: function(errorMessage) {
+							console.log(errorMessage);
+							callback();
+						}
+					});
+				}
+				else {
+					//this is not a valid jpeg file
+					callback();
+				}
+			}
+			reader.readAsArrayBuffer(blob);
+		}
+	}
+
+</script>
+
+</body>
+</html>

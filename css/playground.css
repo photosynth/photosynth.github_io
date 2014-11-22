@@ -1,0 +1,84 @@
+#input-selector h3, #output-selector h3 {
+	font-size: 13px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+}
+
+#input-selector > div, #output-selector > div {
+	font-size: 13px;
+}
+
+div[output_type="textarea"] input[type="checkbox"] {
+	vertical-align: middle;
+}
+div[output_type="textarea"] textarea {
+	width: 950px;
+	height: 337px;
+	margin-top: 10px;
+}
+
+div[output_type="textarea"] .download {
+	min-width: 200px;
+}
+div[output_type="timeline"] > p {
+	margin-bottom: 5px;
+}
+
+#geo-radius-slider {
+	vertical-align: middle;
+}
+
+#output-gallery-container {
+	overflow-y: auto;
+	margin-left: 5px;
+	height: 330px;
+}
+
+#output-gallery-container .thumb {
+	width: 100px;
+	height: 100px;
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	float: left;
+	cursor: pointer;
+}
+#output-gallery-container .thumb img {
+	width: 100px;
+	height: 100px;
+}
+
+#geo-bbox-map {
+	margin-top: 10px;
+}
+
+#geo-radius-map {
+	margin-top: 10px;
+}
+
+#geo-browse-map {
+	margin-top: 10px;
+}
+
+#input-selector .code {
+	padding: 5px 10px 5px 10px;
+	background-color: rgb(255, 81, 81);
+	border-radius: 5px;
+	color: white;
+	border: 0;
+	cursor: pointer;
+}
+
+#output-code-content {
+	margin-top: 10px;
+}
+
+p.input-filter {
+	position: absolute;
+	top: -7px;
+	right: 27px;
+}
+
+p.input-filter input {
+	vertical-align: middle;
+}

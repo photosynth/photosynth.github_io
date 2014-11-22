@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>Photosynth API playground</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<link rel="stylesheet" href="css/doc.css">
+		<link rel="stylesheet" href="css/playground.css">
+	</head>
+
+	<body>
+		<script src="https://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0&s=1"></script>
+
+		<script type="text/javascript" src="js/getUrlParams.js"></script>
+		<script type="text/javascript">var _useCompileJS = getUrlParams().compiled === "1";</script>
+		<script type="text/javascript" src="js/embedScripts.js"></script>
+
+		<!-- jquery is only used for autocomplete -->
+		<script src="js/jquery/jquery.js"></script>
+		<script src="js/jquery/jquery-ui.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="js/jquery/smoothness/jquery-ui.min.css">
+
+		<script src="js/map/SynthMapAutoComplete.js"></script>
+		<script src="js/map/SynthMapClusterLayer.js"></script>
+		<script src="js/playground/Playground.js"></script>
+		<script src="js/playground/PlaygroundMaps.js"></script>
+		<script src="js/playground/PlaygroundInputModules.js"></script>
+		<script src="js/playground/PlaygroundOutputModules.js"></script>
+		<script src="js/playground/PlaygroundCodeGenerator.js"></script>
+
+		<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/styles/default.min.css">
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/highlight.min.js"></script>
+
+		<link rel="stylesheet" href="css/vis.min.css">
+		<script src="js/timeline/moment.min.js"></script>
+		<script src="js/timeline/vis.min.js"></script>
+
+		<div id="page-container">
+
+			<h2>Select several synths using this method:</h3>
+			<div id="input-selector">
+			</div>
+
+			<h2>And render <span id="output-nb-synths">0</span> synths using this method:</h3>
+			<div id="output-selector">
+			</div>
+
+			<p class="input-filter">Filter: panorama <input id="source-filter-panorama" type="checkbox" /> | photosynth 1 <input id="source-filter-ps1" type="checkbox" /> | photosynth 2 <input id="source-filter-ps2" type="checkbox" checked='checked' /></p>
+
+			<script>
+			var _mapEnabled = true;
+
+			//input selector
+			var _inputSelector = new PS.API.Playground.InputSelector($("#input-selector")[0]);
+			_inputSelector.addModule(new PS.API.Playground.UserSynthsInputModule());
+			_inputSelector.addModule(new PS.API.Playground.FavoriteSynthsOfUserInputModule());
+			_inputSelector.addModule(new PS.API.Playground.MostRecentSynthsInputModule());
+			_inputSelector.addModule(new PS.API.Playground.MostFavoriteInputModule());
+			_inputSelector.addModule(new PS.API.Playground.TextSearchInputModule());
+			//TODO: add search by tag
+
+			if (_mapEnabled) {
+				_inputSelector.addModule(new PS.API.Playground.SynthsInGeoBBoxInputModule());
+				_inputSelector.addModule(new PS.API.Playground.SynthsInGeoRadiusInputModule());
+			}
+			_inputSelector.buildDOM();
+
+			//output selector
+			var _outputSelector2 = new PS.API.Playground.OutputSelector($("#output-selector")[0]);
+			_outputSelector2.addModule(new PS.API.Playground.GalleryOutputModule());
+			if (_mapEnabled) {
+				_outputSelector2.addModule(new PS.API.Playground.MapOutputModule());
+			}
+			_outputSelector2.addModule(new PS.API.Playground.CodeOutputModule());
+			_outputSelector2.addModule(new PS.API.Playground.FileOutputModule());
+			_outputSelector2.addModule(new PS.API.Playground.TimelineOutputModule());
+			_outputSelector2.buildDOM();
+
+			PS.Progress.init();
+			_inputSelector.init(_outputSelector2);
+			</script>
+	</div>
+
+	</body>
+</html>

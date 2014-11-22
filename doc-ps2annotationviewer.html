@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Photosynth.PS2AnnotationViewer</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+		<meta charset="utf-8">
+
+		<script type="text/javascript" src="js/getUrlParams.js"></script>
+		<script type="text/javascript">var _useCompileJS = getUrlParams().compiled === "1";</script>
+		<script type="text/javascript" src="js/embedScripts.js"></script>
+
+		<link rel="stylesheet" href="css/doc.css">
+
+		<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/styles/default.min.css">
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/highlight.min.js"></script>
+	</head>
+	<body>
+
+		<div id="page-container">
+
+			<h1>PS2AnnotationViewer</h1>
+
+			<p>This is the main class used to display annotations (highlights). It need to be used with a PS2Viewer.</p>
+			<br />
+
+			<h2>Constructor</h2>
+			<table class="sdk-description">
+				<tr>
+					<th>Name</th>
+					<th>Definition</th>
+					<th>Description</th>
+				</tr>
+				<tr>
+					<td>PS2AnnotationViewer</td>
+					<td>PS2AnnotationViewer(<a href="doc-ps2viewer.html">PS2Viewer</a>, options?: <a href="doc-ps2annotationviewer-options.html">PS2AnnotationViewerOptions</a>)</td>
+					<td>Initialize a new instance of the PS2AnnotationViewer class.</td>
+				</tr>
+			</table>
+
+			<h2>Methods</h2>
+
+			<table class="sdk-description">
+				<tr>
+					<th>Name</th>
+					<th>Return value</th>
+					<th>Description</th>
+				</tr>
+				<tr>
+					<td>addEventListener(eventName, callback)</td>
+					<td>None</td>
+					<td>Register the provided callback to the specified event.</td>
+				</tr>
+				<tr>
+					<td>clear()</td>
+					<td>None</td>
+					<td>Remove all annotations from the viewer.</td>
+				</tr>
+				<tr>
+					<td>dispose()</td>
+					<td>None</td>
+					<td>Deletes the viewer object and releases any associated resources. <strong>(TODO: implement this)</strong></td>
+				</tr>
+				<tr>
+					<td>getInternal()</td>
+					<td>PS.Packet.Annotation.Viewer</td>
+					<td>Return the internal PS.Packet.Annotation.Viewer object (use with caution!).</td>
+				</tr>
+				<tr>
+					<td>load(annotations)</td>
+					<td>None</td>
+					<td>Load the provided annotations in the viewer (it's not clearing first, thus the default behavior is to append).</td>
+				</tr>
+				<tr>
+					<td>removeEventListener(eventName, callback)</td>
+					<td>None</td>
+					<td>Remove the callback previously registered with addEventListener.</td>
+				</tr>
+			</table>
+
+			<h2>Events</h2>
+
+			<table class="sdk-description">
+				<tr>
+					<th>Name</th>
+					<th>Arguments</th>
+					<th>Description</th>
+				</tr>
+				<tr>
+					<td>init</td>
+					<td>PS2AnnotationViewer</td>
+					<td>Occurs when the associated PS2Viewer is built (= the first time the PS2Viewer load a dataset)</td>
+				</tr>
+				<tr>
+					<td>annotation-click</td>
+					<td>Annotation, restingCamera</td>
+					<td>Occurs when the user click on annotation. You can return false to prevent the default zoomToAnnotation behavior.</td>
+				</tr>
+				<tr>
+					<td>annotation-edit</td>
+					<td>Annotation, tx, ty</td>
+					<td>Occurs when the user click on the edit button on an annotation (the editEnabled option of the constructor need to be true).</td>
+				</tr>
+				<tr>
+					<td>annotation-delete</td>
+					<td>Annotation</td>
+					<td>Occurs when the user click on the delete button on an annotation (the editEnabled option of the constructor need to be true).</td>
+				</tr>
+				<tr>
+					<td>edit-annotation-move</td>
+					<td>Annotation, tx, ty</td>
+					<td>Internal usage.</td>
+				</tr>
+			</table>
+
+			<h2>Example</h2>
+			<h3>Minimal setup:</h3>
+			<pre class="brush: js">
+			<code class="js">
+var _container = document.getElementById("viewer-container");
+
+var _viewer = new Photosynth.PS2Viewer(_container, {
+	pathToWorker: "js/PS2PacketPlayer.worker.min.js"
+});
+_viewer.loadGuid("676195e2-64ca-43f5-80ba-a7cb7b10e3aa");
+
+//TODO: add code snipet... (you can check the code in ps-player-sdk-highlight.html)
+
+			</code>
+			</pre>
+
+
+
+		</div>
+		<script>
+		hljs.initHighlightingOnLoad();
+		</script>
+	</body>
+</html>

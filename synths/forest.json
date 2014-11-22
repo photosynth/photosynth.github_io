@@ -1,0 +1,715 @@
+[
+  {
+    "guid": "c48a284f-14ef-4cb0-9339-573d62ce2227",
+    "annotations": [
+      {
+        "worldPoint": [
+          77.17803731476441,
+          82.16762937325119,
+          -22.47523704601716
+        ],
+        "queryPoint": [
+          0.5294342849903455,
+          0.6007353582303264
+        ],
+        "visibility": "6,5,4,3,2,1,0,60,59,58,57,56",
+        "visibilityPreset": 3,
+        "radius": 0.12465878070973613,
+        "text": "",
+        "dbid": 1,
+        "imgIndex": 60,
+        "surfaceOrientation": [
+          -0.09429467701649101,
+          0.1758713393846255,
+          0.8635911859840414,
+          -0.46302057371344646
+        ],
+        "transform": {
+          "date": "08/14/14 15:46:23 Pacific Daylight Time",
+          "quality": {
+            "interSynthFraction": 0.417941,
+            "overall": 0.292841,
+            "reconstructedSourceCameras": 3,
+            "reconstructedTargetCameras": 3,
+            "rotationInlierFraction": 0.192308,
+            "rotationOnlyInliers": 20,
+            "rotationValid": true,
+            "scaleValid": true,
+            "scaleVariance": 7.588,
+            "sourcePureRotation": false,
+            "targetPureRotation": false,
+            "translationValid": true,
+            "validFraction": 0.205187
+          },
+          "source": {
+            "guid": "c48a284f-14ef-4cb0-9339-573d62ce2227",
+            "intrinsics": [
+              49.8788,
+              1.33179,
+              0.020677,
+              -0.016456
+            ],
+            "orientation": [
+              0.622667,
+              -0.227291,
+              -0.265063,
+              0.700261
+            ],
+            "position": [
+              6.73922,
+              6.23145,
+              0.170266
+            ],
+            "sIndex": 27
+          },
+          "target": {
+            "guid": "069547c1-f020-465d-80b8-bcf732004895",
+            "intrinsics": [
+              50.0527,
+              1.33179,
+              0.015051,
+              -0.015667
+            ],
+            "orientation": [
+              0.474851,
+              0.489035,
+              0.527987,
+              0.506549
+            ],
+            "position": [
+              97.0556,
+              -15.7843,
+              -1.39003
+            ],
+            "sIndex": 0
+          },
+          "targetToSourceTransform": {
+            "comment": "Move point x in target to y in source: y = s*R*x + t",
+            "rotation": [
+              -0.012334,
+              0.000161403,
+              -0.929791,
+              0.367881
+            ],
+            "scale": 6.62635,
+            "translation": [
+              533.378,
+              356.307,
+              -5.28031
+            ]
+          },
+          "version": 1
+        }
+      }
+    ]
+  },
+  {
+    "guid": "2a666ffc-1181-4f79-ba4e-e02995829a00",
+    "annotations": [
+      {
+        "worldPoint": [
+          -20.435216896932307,
+          65.84242797742704,
+          -9.747628070220879
+        ],
+        "queryPoint": [
+          0.5370122416579673,
+          0.6866721647562594
+        ],
+        "visibility": "3,2,1,0,52,51,50,49",
+        "visibilityPreset": 3,
+        "radius": 0.1410373066424022,
+        "text": "",
+        "dbid": 1,
+        "imgIndex": 52,
+        "surfaceOrientation": [
+          0.07413228711747535,
+          -0.012840186856853382,
+          -0.17018159620501452,
+          0.9825363850832919
+        ],
+        "transform": {
+          "date": "08/14/14 15:48:47 Pacific Daylight Time",
+          "quality": {
+            "interSynthFraction": 0.759615,
+            "overall": 0.361186,
+            "reconstructedSourceCameras": 3,
+            "reconstructedTargetCameras": 3,
+            "rotationInlierFraction": 0.580046,
+            "rotationOnlyInliers": 250,
+            "rotationValid": true,
+            "scaleValid": true,
+            "scaleVariance": 3.75182,
+            "sourcePureRotation": false,
+            "targetPureRotation": false,
+            "translationValid": true,
+            "validFraction": 0.171739
+          },
+          "source": {
+            "guid": "2a666ffc-1181-4f79-ba4e-e02995829a00",
+            "intrinsics": [
+              49.7276,
+              1.33179,
+              0.020043,
+              -0.016584
+            ],
+            "orientation": [
+              0.701523,
+              0.115037,
+              0.118286,
+              0.693282
+            ],
+            "position": [
+              -2.78108,
+              5.54899,
+              0.398749
+            ],
+            "sIndex": 10
+          },
+          "target": {
+            "guid": "a729818e-f314-42a5-8e9b-b9feb9b36f82",
+            "intrinsics": [
+              50.1463,
+              1.33179,
+              0.016787,
+              -0.016789
+            ],
+            "orientation": [
+              0.594087,
+              0.347419,
+              0.367082,
+              0.625789
+            ],
+            "position": [
+              53.4542,
+              -19.3113,
+              -0.0180602
+            ],
+            "sIndex": 0
+          },
+          "targetToSourceTransform": {
+            "comment": "Move point x in target to y in source: y = s*R*x + t",
+            "rotation": [
+              0.00810314,
+              0.000142383,
+              -0.360316,
+              0.932795
+            ],
+            "scale": 7.59258,
+            "translation": [
+              -203.13,
+              384.341,
+              6.16769
+            ]
+          },
+          "version": 1
+        }
+      },
+      {
+        "worldPoint": [
+          -36.80984477195499,
+          -2.3154894016154675,
+          -3.1060315813679815
+        ],
+        "queryPoint": [
+          0.38498020272410516,
+          0.5654545454545455
+        ],
+        "visibility": "9,8,7,13,12,11,10",
+        "visibilityPreset": 3,
+        "radius": 0.11464968152866242,
+        "text": "",
+        "dbid": 2,
+        "imgIndex": 9,
+        "surfaceOrientation": [
+          0.5835626906390188,
+          0.12955926981598087,
+          0.17375079994113568,
+          0.7826107857891922
+        ],
+        "transform": {
+          "date": "08/14/14 15:50:47 Pacific Daylight Time",
+          "quality": {
+            "interSynthFraction": 0.355556,
+            "overall": 0.442822,
+            "reconstructedSourceCameras": 3,
+            "reconstructedTargetCameras": 3,
+            "rotationInlierFraction": 0.137255,
+            "rotationOnlyInliers": 28,
+            "rotationValid": true,
+            "scaleValid": true,
+            "scaleVariance": 1.17018,
+            "sourcePureRotation": false,
+            "targetPureRotation": false,
+            "translationValid": true,
+            "validFraction": 0.551507
+          },
+          "source": {
+            "guid": "2a666ffc-1181-4f79-ba4e-e02995829a00",
+            "intrinsics": [
+              49.8651,
+              1.33179,
+              0.018793,
+              -0.017244
+            ],
+            "orientation": [
+              0.498302,
+              0.484863,
+              0.500759,
+              0.5156
+            ],
+            "position": [
+              -7.15531,
+              1.06829,
+              -0.324544
+            ],
+            "sIndex": 0
+          },
+          "target": {
+            "guid": "b8d5a094-f5b0-4f07-9054-349570584f51",
+            "intrinsics": [
+              49.5893,
+              1.33179,
+              0.013982,
+              -0.014156
+            ],
+            "orientation": [
+              0.415132,
+              0.422688,
+              0.563719,
+              0.575518
+            ],
+            "position": [
+              6.12383,
+              -0.0852064,
+              -0.273712
+            ],
+            "sIndex": 21
+          },
+          "targetToSourceTransform": {
+            "comment": "Move point x in target to y in source: y = s*R*x + t",
+            "rotation": [
+              0.00391591,
+              0.00709283,
+              0.0169489,
+              0.999824
+            ],
+            "scale": 5.66329,
+            "translation": [
+              -38.9991,
+              -2.8014,
+              2.84662
+            ]
+          },
+          "version": 1
+        }
+      }
+    ]
+  },
+  {
+    "guid": "069547c1-f020-465d-80b8-bcf732004895",
+    "annotations": [
+      {
+        "worldPoint": [
+          -111.84168792115403,
+          45.62677189509692,
+          -1.0796922287989594
+        ],
+        "queryPoint": [
+          0.5205088086733239,
+          0.5678281659162685
+        ],
+        "visibility": "100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137",
+        "visibilityPreset": 3,
+        "radius": 0.20473157415832574,
+        "text": "",
+        "dbid": 1,
+        "imgIndex": 137,
+        "surfaceOrientation": [
+          0.5234590037954447,
+          0.2717198080618952,
+          0.372055480201428,
+          0.7167522276192434
+        ],
+        "transform": {
+          "date": "08/14/14 15:47:48 Pacific Daylight Time",
+          "quality": {
+            "interSynthFraction": 0.53978,
+            "overall": 0.350585,
+            "reconstructedSourceCameras": 3,
+            "reconstructedTargetCameras": 3,
+            "rotationInlierFraction": 0.544402,
+            "rotationOnlyInliers": 282,
+            "rotationValid": true,
+            "scaleValid": true,
+            "scaleVariance": 1.15261,
+            "sourcePureRotation": false,
+            "targetPureRotation": false,
+            "translationValid": true,
+            "validFraction": 0.227703
+          },
+          "source": {
+            "guid": "069547c1-f020-465d-80b8-bcf732004895",
+            "intrinsics": [
+              50.2282,
+              1.33179,
+              0.012569,
+              -0.012684
+            ],
+            "orientation": [
+              0.583478,
+              0.324334,
+              0.368256,
+              0.647107
+            ],
+            "position": [
+              -102.767,
+              39.776,
+              0.797302
+            ],
+            "sIndex": 137
+          },
+          "target": {
+            "guid": "2a666ffc-1181-4f79-ba4e-e02995829a00",
+            "intrinsics": [
+              49.7734,
+              1.33179,
+              0.021267,
+              -0.016596
+            ],
+            "orientation": [
+              -0.121056,
+              0.70065,
+              0.692981,
+              -0.119219
+            ],
+            "position": [
+              3.33685,
+              -5.54742,
+              0.191169
+            ],
+            "sIndex": 35
+          },
+          "targetToSourceTransform": {
+            "comment": "Move point x in target to y in source: y = s*R*x + t",
+            "rotation": [
+              -0.00414378,
+              0.00452599,
+              -0.938596,
+              0.344964
+            ],
+            "scale": 0.271058,
+            "translation": [
+              -101.95,
+              39.5798,
+              0.555515
+            ]
+          },
+          "version": 1
+        }
+      },
+      {
+        "worldPoint": [
+          28.683909571658997,
+          -3.6677324729514282,
+          -2.3995394576114677
+        ],
+        "queryPoint": [
+          0.879412960456492,
+          0.46950008646718155
+        ],
+        "visibility": "38,39,40,41,42,43,44",
+        "visibilityPreset": 3,
+        "radius": 0.07370336669699727,
+        "text": "",
+        "dbid": 2,
+        "imgIndex": 41,
+        "surfaceOrientation": [
+          0.6031088792946687,
+          0.28277054901151555,
+          0.3166244442145325,
+          0.6753143395430168
+        ],
+        "transform": {
+          "date": "08/14/14 15:51:43 Pacific Daylight Time",
+          "quality": {
+            "interSynthFraction": 0.424812,
+            "overall": 0.370184,
+            "reconstructedSourceCameras": 3,
+            "reconstructedTargetCameras": 3,
+            "rotationInlierFraction": 0.298701,
+            "rotationOnlyInliers": 92,
+            "rotationValid": true,
+            "scaleValid": true,
+            "scaleVariance": 0.64088,
+            "sourcePureRotation": false,
+            "targetPureRotation": false,
+            "translationValid": true,
+            "validFraction": 0.322581
+          },
+          "source": {
+            "guid": "069547c1-f020-465d-80b8-bcf732004895",
+            "intrinsics": [
+              50.0646,
+              1.33179,
+              0.013403,
+              -0.013473
+            ],
+            "orientation": [
+              0.526788,
+              0.427628,
+              0.465729,
+              0.568089
+            ],
+            "position": [
+              45.5278,
+              -16.2959,
+              -1.47395
+            ],
+            "sIndex": 41
+          },
+          "target": {
+            "guid": "0d9dc300-62da-421e-8fd4-63edfc53660e",
+            "intrinsics": [
+              50.1608,
+              1.33179,
+              0.018914,
+              -0.019332
+            ],
+            "orientation": [
+              0.277436,
+              0.618693,
+              0.671083,
+              0.299826
+            ],
+            "position": [
+              10.0941,
+              4.83612,
+              0.0665447
+            ],
+            "sIndex": 0
+          },
+          "targetToSourceTransform": {
+            "comment": "Move point x in target to y in source: y = s*R*x + t",
+            "rotation": [
+              0.00411377,
+              0.00363064,
+              -0.456934,
+              0.889484
+            ],
+            "scale": 1.09816,
+            "translation": [
+              35.3928,
+              -10.898,
+              -1.43931
+            ]
+          },
+          "version": 1
+        }
+      }
+    ]
+  },
+  {
+    "guid": "a729818e-f314-42a5-8e9b-b9feb9b36f82",
+    "annotations": [
+      {
+        "worldPoint": [
+          -62.901634666639744,
+          0.49807029104188594,
+          -2.19519003939389
+        ],
+        "queryPoint": [
+          0.5895551312068478,
+          0.7189620658102355
+        ],
+        "visibility": "123,124,125,126,127,128,129,130",
+        "visibilityPreset": 3,
+        "radius": 0.14194722474977253,
+        "text": "",
+        "dbid": 1,
+        "imgIndex": 130,
+        "surfaceOrientation": [
+          0.08476635378699708,
+          0.07155313687744373,
+          0.6410560163689323,
+          0.7594353122072193
+        ],
+        "transform": {
+          "date": "08/14/14 15:49:52 Pacific Daylight Time",
+          "quality": {
+            "interSynthFraction": 0.712538,
+            "overall": 0.391974,
+            "reconstructedSourceCameras": 3,
+            "reconstructedTargetCameras": 3,
+            "rotationInlierFraction": 0.14658,
+            "rotationOnlyInliers": 45,
+            "rotationValid": true,
+            "scaleValid": true,
+            "scaleVariance": 4.44244,
+            "sourcePureRotation": false,
+            "targetPureRotation": false,
+            "translationValid": true,
+            "validFraction": 0.215628
+          },
+          "source": {
+            "guid": "a729818e-f314-42a5-8e9b-b9feb9b36f82",
+            "intrinsics": [
+              50.0006,
+              1.33179,
+              0.018444,
+              -0.018473
+            ],
+            "orientation": [
+              0.251796,
+              0.662359,
+              0.656962,
+              0.257449
+            ],
+            "position": [
+              -54.7966,
+              7.68473,
+              -0.031603
+            ],
+            "sIndex": 130
+          },
+          "target": {
+            "guid": "c48a284f-14ef-4cb0-9339-573d62ce2227",
+            "intrinsics": [
+              49.6694,
+              1.33179,
+              0.019381,
+              -0.018376
+            ],
+            "orientation": [
+              -0.0244338,
+              0.682808,
+              0.729789,
+              -0.0241762
+            ],
+            "position": [
+              0.966049,
+              -12.1606,
+              0.590718
+            ],
+            "sIndex": 46
+          },
+          "targetToSourceTransform": {
+            "comment": "Move point x in target to y in source: y = s*R*x + t",
+            "rotation": [
+              -0.000912573,
+              -0.0114685,
+              -0.340324,
+              0.940238
+            ],
+            "scale": 0.0846301,
+            "translation": [
+              -55.3838,
+              7.95712,
+              -0.222447
+            ]
+          },
+          "version": 1
+        }
+      },
+      {
+        "worldPoint": [
+          -2.381212948984828,
+          10.802534270917048,
+          -0.35475707053780764
+        ],
+        "queryPoint": [
+          0.8675855242318657,
+          0.40909090909090917
+        ],
+        "visibility": "26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53",
+        "visibilityPreset": 3,
+        "radius": 0.09372156505914468,
+        "text": "",
+        "dbid": 2,
+        "imgIndex": 48,
+        "surfaceOrientation": [
+          0.3301730687524258,
+          0.6051580764802721,
+          0.635917718082314,
+          0.34695547770462665
+        ],
+        "transform": {
+          "date": "08/14/14 15:52:28 Pacific Daylight Time",
+          "quality": {
+            "interSynthFraction": 0.213419,
+            "overall": 0.29038,
+            "reconstructedSourceCameras": 3,
+            "reconstructedTargetCameras": 3,
+            "rotationInlierFraction": 0.239726,
+            "rotationOnlyInliers": 35,
+            "rotationValid": true,
+            "scaleValid": true,
+            "scaleVariance": 2.04843,
+            "sourcePureRotation": false,
+            "targetPureRotation": false,
+            "translationValid": true,
+            "validFraction": 0.395093
+          },
+          "source": {
+            "guid": "a729818e-f314-42a5-8e9b-b9feb9b36f82",
+            "intrinsics": [
+              50.2494,
+              1.33179,
+              0.012383,
+              -0.012553
+            ],
+            "orientation": [
+              0.501622,
+              0.431103,
+              0.495801,
+              0.562767
+            ],
+            "position": [
+              16.9068,
+              -1.47513,
+              0.367887
+            ],
+            "sIndex": 48
+          },
+          "target": {
+            "guid": "c4b57c64-b223-4110-a1d6-ae75c925f972",
+            "intrinsics": [
+              50.3236,
+              1.33179,
+              0.011276,
+              -0.011434
+            ],
+            "orientation": [
+              -0.182661,
+              0.644631,
+              0.710613,
+              -0.214744
+            ],
+            "position": [
+              27.6449,
+              93.9092,
+              4.71905
+            ],
+            "sIndex": 0
+          },
+          "targetToSourceTransform": {
+            "comment": "Move point x in target to y in source: y = s*R*x + t",
+            "rotation": [
+              0.00315084,
+              -0.0145547,
+              -0.898408,
+              0.438908
+            ],
+            "scale": 0.229332,
+            "translation": [
+              4.49477,
+              16.6441,
+              -1.23375
+            ]
+          },
+          "version": 1
+        }
+      }
+    ]
+  }
+]

@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>Demo - Photosynth Player Minimal</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+		<link rel="stylesheet" type="text/css" href="css/demos.css" />
+
+		<meta charset="utf-8">
+
+		<script type="text/javascript" src="js/getUrlParams.js"></script>
+		<script type="text/javascript">var _useCompileJS = getUrlParams().compiled === "1";</script>
+		<script type="text/javascript" src="js/embedScripts.js"></script>
+
+		<script src="js/graph/dagre.min.js"></script>
+		<script src="js/graph/d3.v3.min.js"></script>
+		<script src="js/graph/dagre-d3.min.js"></script>
+		<script src="js/graph/fillSynthGraph.js"></script>
+		<script src="js/DebugPanel.js"></script>
+
+		<style>
+		svg {
+			overflow: hidden;
+		}
+
+		.node rect {
+			stroke: #333;
+			stroke-width: 1.5px;
+			fill: #fff;
+		}
+
+		.edgeLabel rect {
+			fill: #fff;
+		}
+
+		.edgePath {
+			stroke: #333;
+			stroke-width: 1.5px;
+			fill: none;
+		}
+
+		#download {
+			position: absolute;
+			top: 5px;
+			left: 5px;
+			min-width: 212px;
+			min-height: 30px;
+		}
+		</style>
+
+	</head>
+	<body>
+		<button id="download" onclick="downloadJson()">download json (chrome only)</button>
+		<svg id="svg-graph-renderer">
+			<g transform="translate(20,20)"></g>
+		</svg>
+
+		<script>
+
+		var _params = PS.Utils.getUrlParams();
+		var _tour = _params.tour || "forest.json";
+		var _guid = _params.guid || "c48a284f-14ef-4cb0-9339-573d62ce2227";
+
+		if (_useStaticStorage) {
+			//readonly storage from json dump
+			PS.API.SimpleStaticStorage.init(_staticStoragePrefix + _tour, onStorageInitialized);
+		}
+		else {
+			//node.js + mondb experimental storage
+			PS.API.SimpleAnnotationStorage.init(_annotationStorageURL, _annotationStoragePort, onStorageInitialized);
+		}
+
+		var _g = new dagre.Digraph();
+
+		function onStorageInitialized(storage) {
+			if (storage) {
+				fillSynthGraph(storage, _guid, _g, function() {
+					var svg = document.getElementById("svg-graph-renderer");
+					svg.setAttribute("width",  window.innerWidth);
+					svg.setAttribute("height", window.innerHeight);
+
+					var renderer = new dagreD3.Renderer();
+					renderer.run(_g, d3.select("svg g"));
+				});
+			}
+			else {
+				PS.DebugPanel.init();
+				PS.DebugPanel.setContent("<p>Please start <strong>utils/AnnotationStorage/_launch.bat</strong> and refresh the page.</p>");
+			}
+		}
+
+		function downloadJson() {
+			var synths  = [];
+			var nodes = _g.nodes();
+			nodes.forEach(function(guid) {
+				var annotations = _g.node(guid).annotations;
+				if (annotations.length > 0) {
+					synths.push({
+						guid: guid,
+						annotations: annotations
+					});
+				}
+			});
+			if (synths.length > 0) {
+				var blob = new Blob([JSON.stringify(synths)], {
+					type: "application/json"
+				});
+				var url = URL.createObjectURL(blob);
+
+				var a = document.createElement('a');
+				a.download = "tour.json";
+				a.href = url;
+				a.click();
+			}
+		}
+
+		</script>
+	</body>
+</html>

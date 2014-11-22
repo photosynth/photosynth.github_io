@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Photosynth.PS2Viewer</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+		<meta charset="utf-8">
+
+		<script type="text/javascript" src="js/getUrlParams.js"></script>
+		<script type="text/javascript">var _useCompileJS = getUrlParams().compiled === "1";</script>
+		<script type="text/javascript" src="js/embedScripts.js"></script>
+
+		<link rel="stylesheet" href="css/doc.css">
+
+		<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/styles/default.min.css">
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/highlight.min.js"></script>
+	</head>
+	<body>
+
+		<div id="page-container">
+
+			<h1>PS2Viewer</h1>
+
+			<p>This is the main class used to display a ps2 synth.</p>
+			<br />
+
+			<h2>Constructor</h2>
+			<table class="sdk-description">
+				<tr>
+					<th>Name</th>
+					<th>Definition</th>
+					<th>Description</th>
+				</tr>
+				<tr>
+					<td>PS2Viewer</td>
+					<td>PS2Viewer(containerElement:node, options?: <a href="doc-ps2viewer-options.html">PS2ViewerOptions</a>)</td>
+					<td>Initialize a new instance of PS2Viewer class.</td>
+				</tr>
+			</table>
+
+			<h2>Methods</h2>
+
+			<table class="sdk-description">
+				<tr>
+					<th>Name</th>
+					<th>Return value</th>
+					<th>Description</th>
+				</tr>
+				<tr>
+					<td>addEventListener(eventName, callback)</td>
+					<td>None</td>
+					<td>Register the provided callback to the specified event.</td>
+				</tr>
+				<tr>
+					<td>blur()</td>
+					<td>None</td>
+					<td>Removes focus from the viewer so that it does not respond to keyboard events.</td>
+				</tr>
+				<tr>
+					<td>dispose()</td>
+					<td>None</td>
+					<td>Deletes the viewer object and releases any associated resources. (Sadly it's leaking if the hidden 42 menu has been invoked: dat.gui needs to be fixed.)</td>
+				</tr>
+				<tr>
+					<td>focus()</td>
+					<td>None</td>
+					<td>Applies focus to the viewer so that it responds to keyboard events.</td>
+				</tr>
+				<tr>
+					<td>getCameraMode()</td>
+					<td>PS.Packet.ViewMode</td>
+					<td>Return the current camera mode of the player from the PS.Packet.ViewMode enum. (Smooth=0, Linear=1, Global=2)</td>
+				</tr>
+				<tr>
+					<td>getInternal()</td>
+					<td>PS.Packet.Player</td>
+					<td>Return the internal PS.Packet.Player object (use with caution!).</td>
+				</tr>
+				<tr>
+					<td>goHomeZoom()</td>
+					<td>None</td>
+					<td>If the viewer is zoomed into a seadragon image it will zoom back to the 'home' level.</td>
+				</tr>
+				<tr>
+					<td>gotoCamera(camera, options)</td>
+					<td>None</td>
+					<td>Move the viewer to the specified camera on the path. You can provide 2 options: onComplete callback or speedFactor number.</td>
+				</tr>
+				<tr>
+					<td>isHomeZoom()</td>
+					<td>boolean</td>
+					<td>Return if the seadragon viewer is at the home zoom level.</td>
+				</tr>
+				<tr>
+					<td>isPlaying()</td>
+					<td>boolean</td>
+					<td>Return if the viewer is animating (=if the user has pressed the play button, it's also true if autoStart=true)</td>
+				</tr>
+				<tr>
+					<td>load(url)</td>
+					<td>None</td>
+					<td>Load the synth from the provided url (could be local or remote) into the viewer.</td>
+				</tr>
+				<tr>
+					<td>loadGuid(guid)</td>
+					<td>None</td>
+					<td>Load the synth hosted on photosynth.net.</td>
+				</tr>
+				<tr>
+					<td>play(direction)</td>
+					<td>None</td>
+					<td>Start playing the synth (direction could be null or 1 or -1, null = respect last dragging direction, and 1 or -1 are used to define the default or reverse way)</td>
+				</tr>
+				<tr>
+					<td>preload(url, onPreloaded)</td>
+					<td>None</td>
+					<td>Start preloading a dataset. The onPreloaded callback is fired when the dataset is preloaded with the dataset as first argument. (see example bellow).</td>
+				</tr>
+				<tr>
+					<td>removeEventListener(eventName, callback)</td>
+					<td>None</td>
+					<td>Remove the callback previously registered with addEventListener.</td>
+				</tr>
+				<tr>
+					<td>resize(width, height, mode)</td>
+					<td>None</td>
+					<td>Resize the viewer to the specified size. mode is a PS.Packet.ResizeMode enum:<br/>0=Fast = css scaling only<br />1=Slow = resize the webgl renderer too</td>
+				</tr>
+				<tr>
+					<td>setActiveDataset(dataset)</td>
+					<td>None</td>
+					<td>Change the current active dataset (swap the dataset being viewed).</td>
+				</tr>
+				<tr>
+					<td>setAnimationSpeed(speed)</td>
+					<td>None</td>
+					<td>Change the animation speed.</td>
+				</tr>
+				<tr>
+					<td>setCameraMode(mode)</td>
+					<td>None</td>
+					<td>Change the camera mode (mode is a PS.Packet.ViewMode enum: Smooth=0, Linear=1, Global=2)</td>
+				</tr>
+				<tr>
+					<td>setPosition(qIndex)</td>
+					<td>None</td>
+					<td>Manually change the position on the path (qIndex = number from 0 to dataset.path.nbPoints)</td>
+				</tr>
+				<tr>
+					<td>stop(onStopped)</td>
+					<td>None</td>
+					<td>Stop the animation of the viewer. There is a tween to stop the motion, so the optionnal onStopped callback is fired when the viewer is actually stopped.</td>
+				</tr>
+				<tr>
+					<td>togglePlay(options)</td>
+					<td>None</td>
+					<td>Toggle the playing status of the viewer (between play/stop). The options object contains the direction and onStopped property with same meaning as in play and stop function.</td>
+				</tr>
+			</table>
+
+			<h2>Events</h2>
+
+			<table class="sdk-description">
+				<tr>
+					<th>Name</th>
+					<th>Arguments</th>
+					<th>Description</th>
+				</tr>
+				<tr>
+					<td>animation-start</td>
+					<td>None</td>
+					<td>Occurs when the viewer start animating.</td>
+				</tr>
+				<tr>
+					<td>animation-stop</td>
+					<td>None</td>
+					<td>Occurs when the viewer stop animating.</td>
+				</tr>
+				<tr>
+					<td>annotate</td>
+					<td></td>
+					<td>Internal usage. Occurs when the user click on the annotate button.</td>
+				</tr>
+				<tr>
+					<td>camera-changed</td>
+					<td>camera, sIndex</td>
+					<td>Occurs when the viewer resting camera is changed. (First argument is a PS.Packet.Camera, Second argument is the sIndex of that camera)</td>
+				</tr>
+				<tr>
+					<td>camera-mode-changed</td>
+					<td>mode</td>
+					<td>Occurs when the camera mode of the viewer is changed. (mode = PS.Packet.ViewMode enum)</td>
+				</tr>
+				<tr>
+					<td>cameras-changed</td>
+					<td>sIndexA, sIndexB</td>
+					<td>Occurs when the pair of camera surrounding the virtual camera is changed. This will occur while dragging on the path</td>
+				</tr>
+				<tr>
+					<td>container-transformed</td>
+					<td></td>
+					<td>Internal usage</td>
+				</tr>
+				<tr>
+					<td>dataset-loaded</td>
+					<td>dataset</td>
+					<td>Occurs when the minimal amount of data needed to render a dataset has been loaded and parsed. dataset is a PS.Packet.Dataset object.</td>
+				</tr>
+				<tr>
+					<td>dataset-rendered</td>
+					<td>dataset</td>
+					<td>Occurs when the dataset is rendered (=when the webgl renderer is rendering it). dataset is a PS.Packet.Dataset object.</td>
+				</tr>
+				<tr>
+					<td>enter-fullscreen</td>
+					<td>None</td>
+					<td>Occurs when entering fullscreen mode</td>
+				</tr>
+				<tr>
+					<td>exit-fullscreen</td>
+					<td>None</td>
+					<td>Occurs when exiting fullscreen mode</td>
+				</tr>
+				<tr>
+					<td>geometry-loaded</td>
+					<td>None</td>
+					<td>Occurs when all geometry of the synth have been loaded (the viewer has reach 100% and will start animating at this stage if autoStart=true and if the user hasn't interacted with the synth before this stage)</td>
+				</tr>
+				<tr>
+					<td>imagery-loaded</td>
+					<td>None</td>
+					<td>Occurs when all HD imagery of the synth have been loaded (this will happen after geometry-loaded)</td>
+				</tr>
+				<tr>
+					<td>pose-changed</td>
+					<td>None</td>
+					<td>Internal usage (trigger when the viewer is snapping to a resting frame)</td>
+				</tr>
+				<tr>
+					<td>position-changed</td>
+					<td>qIndex</td>
+					<td>Occurs when the viewer is moving. The position can be off. You can fix it by calling dataset.path.fixRange(qIndex).</td>
+				</tr>
+				<tr>
+					<td>resize</td>
+					<td>resizeState, resizeMode</td>
+					<td>Occurs when the viewer is resized.</td>
+				</tr>
+				<tr>
+					<td>seadragon-resize</td>
+					<td></td>
+					<td>Internal usage</td>
+				</tr>
+				<tr>
+					<td>viewer-built</td>
+					<td>None</td>
+					<td>Fired when the viewer DOM is created.</td>
+				</tr>
+				<tr>
+					<td>viewer-updated</td>
+					<td>None</td>
+					<td>Fired when the viewer DOM is changed (due to a call to .load() and for the intial loading).</td>
+				</tr>
+				<tr>
+					<td>zoom-level-changed</td>
+					<td>isHomeZoom</td>
+					<td>Occurs when the viewer start to zoom into a seadragon image or when it comes back to the home zoom level.</td>
+				</tr>
+			</table>
+
+			<h2>Example</h2>
+			<h3>Minimal setup:</h3>
+			<pre class="brush: js">
+			<code class="js">
+var _container = document.getElementById("viewer-container");
+
+var _viewer = new Photosynth.PS2Viewer(_container, {
+	pathToWorker: "js/PS2PacketPlayer.worker.min.js"
+});
+_viewer.loadGuid("676195e2-64ca-43f5-80ba-a7cb7b10e3aa");
+			</code>
+			</pre>
+
+			<h3>Loading mechanism:</h3>
+			<pre class="brush: js">
+			<code class="js">
+
+var _guid = "676195e2-64ca-43f5-80ba-a7cb7b10e3aa";
+
+//loadGuid is ...
+_viewer.loadGuid(_guid);
+
+//... a shortcut for:
+PS.API.getPS2Url(_guid, function(url) {
+	if (url) {
+		_viewer.preload(url, function(dataset) {
+			_viewer.setActiveDataset(dataset);
+		});
+	}
+	else {
+		//not a valid ps2 guid
+	}
+});
+			</code>
+			</pre>
+
+			<h3>Navigating on the synth only once:</h3>
+			<pre class="brush: js">
+			<code class="js">
+var _guid = "676195e2-64ca-43f5-80ba-a7cb7b10e3aa";
+
+var _firstCamera;
+var _lastCamera;
+
+var _viewer = new Photosynth.PS2Viewer(_container, {
+	pathToWorker: "js/PS2PacketPlayer.worker.min.js",
+	autoStart: false
+});
+
+_viewer.addEventListener("dataset-loaded", function(dataset) {
+	var cameras = dataset.cameras;
+	_firstCamera = cameras[0];
+	_lastCamera = cameras[cameras.length-1];
+});
+
+_viewer.addEventListener("geometry-loaded", function() {
+	_viewer.gotoCamera(_firstCamera, {
+		onComplete: function() {
+			_viewer.gotoCamera(_lastCamera);
+		}
+	});
+});
+
+_viewer.loadGuid(_guid);
+			</code>
+			</pre>
+		</div>
+		<script>
+		hljs.initHighlightingOnLoad();
+		</script>
+	</body>
+</html>

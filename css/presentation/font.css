@@ -1,0 +1,10 @@
+@font-face {
+	font-family:'Segoe UI Light';
+	src: url('../../font/light/segoeuil.eot');
+	src: url('../../font/light/segoeuil.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+		url('../../font/light/segoeuil.woff') format('woff'),       /* Modern Browser */
+		url('../../font/light/segoeuil.ttf')  format('truetype'),   /* Safari, Android, iOS */
+		url('../../font/light/segoeuil.svg#SegoeUI') format('svg'); /* Legacy iOS */
+	font-weight: normal;
+	font-style: normal;
+}

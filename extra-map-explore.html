@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Browse synths on the map</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+		<meta charset="utf-8">
+		<link rel="stylesheet" type="text/css" href="css/map.bing.css">
+
+		<script src="https://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0&s=1"></script>
+		<script type="text/javascript" src="js/getUrlParams.js"></script>
+		<script type="text/javascript">var _useCompileJS = getUrlParams().compiled === "1";</script>
+		<script type="text/javascript" src="js/embedScripts.js"></script>
+
+		<!-- jquery is only used for autocomplete -->
+		<script src="js/jquery/jquery.js"></script>
+		<script src="js/jquery/jquery-ui.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/jquery/jquery-ui.min.css">
+
+		<script src="js/ThumbnailRotator.js"></script>
+		<script src="js/map/SynthMapClusterLayer.js"></script>
+		<script src="js/map/SynthMapSidebar.js"></script>
+		<script src="js/map/SynthMapAutoComplete.js"></script>
+	</head>
+	<body>
+		<div id="map-canvas"></div>
+
+		<div id="map-autocomplete">
+			<input type="text" id="searchBox" style="width: 200px;" />
+		</div>
+
+		<div id="map-sidebar" class="SynthMapSidebar">
+			<h3 class="title"></h3>
+			<div class="visible-collections"></div>
+		</div>
+
+		<script>
+
+		var _map;
+		var _infobox;
+		var _animator = new ThumbnailRotator(20);
+
+		//Create sidebar
+		PS.SynthMapSidebar.init(document.getElementById("map-sidebar"), {
+			onMouseOverPS2: function(guid) {
+				if (PS.SynthMapClusterLayer.isInitialized()) {
+					var collections = PS.SynthMapClusterLayer.getDisplayedData();
+					var collection = collections.filter(function(c) { return c.guid === guid; })[0]; //hacky
+
+					displayInfobox({ //hacky
+						targetType: "pushpin",
+						target: {
+							data: collection,
+							getLocation: function() {
+								return collection._LatLong;
+							}
+						}
+					});
+				}
+			},
+			onMouseOutPS2: function() {
+				hideInfobox();
+			},
+			onMouseClickPS2: function(guid, zoom) {
+				if (PS.SynthMapClusterLayer.isInitialized()) {
+					var collections = PS.SynthMapClusterLayer.getDisplayedData();
+					var collection = collections.filter(function(c) { return c.guid === guid; })[0]; //hacky
+
+					_map.setView({zoom: zoom, center: collection._LatLong});
+				}
+			}
+		});
+
+		function createMap() {
+
+			//create map
+			_map = new Microsoft.Maps.Map(document.getElementById('map-canvas'), {
+				credentials: _bingMapKey,
+				enableSearchLogo: false,
+				showDashboard: false,
+				backgroundColor: new Microsoft.Maps.Color(255, 0, 0, 0),
+				mapTypeId : Microsoft.Maps.MapTypeId.aerial, //road?
+				center: new Microsoft.Maps.Location(19.83816565050461, 5.542245427666566),
+				zoom: 3,
+				width: window.innerWidth-375,
+				height: window.innerHeight
+			});
+
+			//Create search autocomplete
+			PS.SynthMapAutoComplete.init(_map, _bingMapKey, document.getElementById('searchBox'));
+
+			//add infobox
+			var infoboxLayer = new Microsoft.Maps.EntityCollection({zIndex: 30});
+			_map.entities.push(infoboxLayer);
+			_infobox = new Microsoft.Maps.Infobox(new Microsoft.Maps.Location(0, 0), { zIndex: 50, visible: false, showCloseButton: false, width: 300, height: 300});
+			infoboxLayer.push(_infobox);
+
+			Microsoft.Maps.Events.addHandler(_infobox, 'mouseout', function() {
+				hideInfobox();
+			});
+
+			//add cluster layer
+			PS.SynthMapClusterLayer.init(_map, 'js/map/V7PointBasedClustering.js', {
+				onInit: function() {
+					addSynths();
+				},
+				onClusterClick: function(collections) {
+					zoomTo(collections);
+				},
+				onMouseOverPin: displayInfobox
+			});
+
+			//update sidebar on view change
+			Microsoft.Maps.Events.addHandler(_map, 'viewchangeend', function(e) {
+				if (PS.SynthMapClusterLayer.isInitialized()) {
+					PS.SynthMapSidebar.update(PS.SynthMapClusterLayer.getDisplayedData());
+				}
+			});
+
+			//click logic on map and infobox
+			Microsoft.Maps.Events.addHandler(_map, 'mousedown', function(e) {
+				//ARGHHH!!! e.targetType=map when you click on the infobox, but the originalEvent.target=img for map and div for the infobox
+				if (e.targetType === "map" && e.originalEvent.target.nodeName.toLowerCase() === "img") {
+					if (e.originalEvent.target.getAttribute("id") === "animatedPreview") {
+						window.location.assign("https://photosynth.net/view/"+_infobox.guid);
+					}
+					else {
+						hideInfobox();
+					}
+				}
+				else if (e.targetType === "map") {
+					window.location.assign("https://photosynth.net/view/"+_infobox.guid);
+				}
+			});
+		}
+
+		function addSynths() {
+
+			//Empty the current cluster layer
+			PS.SynthMapClusterLayer.clear();
+
+			PS.Progress.init({color: "#b4e800"});
+
+			if (PS.Utils.getUrlParams().favorites === "0") {
+				PS.API.getListOfUserSynth("dddexperiments", {
+					filter: "SynthPackets",
+					maxItems: 300,
+					onProgress: function(percent) {
+						PS.Progress.set(percent);
+					},
+					onComplete: function(collections) {
+						onCollectionsReceived(collections);
+					}
+				});
+			}
+			else {
+				PS.API.getListOfFavoriteUserSynth("ps2-hero", {
+					filter: "SynthPackets",
+					maxItems: 300,
+					onProgress: function(percent) {
+						PS.Progress.set(percent);
+					},
+					onComplete: function(collections) {
+						onCollectionsReceived(collections);
+					}
+				});
+			}
+		}
+
+		function onCollectionsReceived(collections) {
+			collections = collections.filter(function(c) { return c.latitude && c.longitude;}); //Only geotagged ones
+			collections = collections.filter(function(c) { return c.type === "PS2"}); //TODO: support panorama and PS1!
+
+			if (collections.length > 0) {
+				zoomTo(collections);
+			}
+
+			PS.SynthMapClusterLayer.update(collections);
+
+			PS.Progress.done();
+		}
+
+		function zoomTo(collections) {
+			var locations = collections.map(function(c) { return new Microsoft.Maps.Location(c.latitude, c.longitude); });
+			var bounds = Microsoft.Maps.LocationRect.fromLocations(locations);
+			bounds.height *= 1.2;
+			bounds.width  *= 1.2;
+
+			if (bounds.width === 0) {
+				var zoom = collections.map(function(c) { return c.zoomLevel; }).reduce(function(a,b) { return Math.min(a,b);});
+				_map.setView({center: bounds.center, zoom: zoom});
+			}
+			else {
+				_map.setView({bounds: bounds});
+			}
+		}
+
+		function hideInfobox() {
+			_infobox.setOptions({visible: false});
+			_animator.stop();
+		}
+
+		function displayInfobox(e) {
+			if (e.targetType == 'pushpin') {
+				_infobox.setLocation(e.target.getLocation());
+
+				var data = e.target.data;
+
+				if (_infobox.getOptions().visible && _infobox.guid && _infobox.guid === data.guid) {
+					return;
+				}
+
+				//determine where to display the infobox so that it's on screen (ex: you need to display the infobox bellow the pushpin if the pushpin is too high, otherwise the infobox will be cropped)
+				var infoboxLocation = _map.tryLocationToPixel(e.target.getLocation(), Microsoft.Maps.PixelReference.control);
+				var infoboxPosition = "";
+				if (infoboxLocation.y < _map.getHeight()-_infobox.getHeight() - 25) {
+					infoboxPosition = "top-";
+				}
+				else {
+					infoboxPosition = "bottom-";
+				}
+				if (infoboxLocation.x < Math.floor(_infobox.getWidth()/2) + 5) {
+					infoboxPosition += "left";
+				}
+				else if (infoboxLocation.x > _map.getWidth() - Math.floor(_infobox.getWidth()/2) - 5) {
+					infoboxPosition += "right";
+				}
+				else {
+					infoboxPosition += "middle";
+				}
+
+				var infoboxPositions = {
+					"top-left":      new Microsoft.Maps.Point(  24, -317),
+					"top-middle":    new Microsoft.Maps.Point(-126, -317),
+					"top-right":     new Microsoft.Maps.Point(-276, -317),
+					"bottom-left":   new Microsoft.Maps.Point(  24,   17),
+					"bottom-middle": new Microsoft.Maps.Point(-126,   17),
+					"bottom-right":  new Microsoft.Maps.Point(-276,   17)
+				};
+
+				var title = data.name.length > 43 ? data.name.substr(0, 46) + "..." : data.name;
+
+				var htmlContent = "";
+				htmlContent += '<div class="arrow '+infoboxPosition+'"></div>';
+				htmlContent += '<img id="animatedPreview" src="'+data.thumb+'" alt="'+data.name+'" />';
+				htmlContent += '<div class="title" title='+data.name+'>'+title+'</div>';
+
+				_infobox.guid = data.guid;
+				_infobox.setOptions({visible: true, title: '', description: htmlContent, typeName: "PS2Infobox", offset: infoboxPositions[infoboxPosition]});
+
+				var img = document.getElementById("animatedPreview");
+				var url = img.src;
+				var root = url.substr(0, url.indexOf("0.jpg"));
+				var urls = PS.Utils.generateRangeArray(20).map(function(index) { return root + index + ".jpg"; });
+				_animator.start(img, "test", urls);
+			}
+		}
+
+		window.addEventListener("load", createMap, false);
+		</script>
+
+	</body>
+</html>

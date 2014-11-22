@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>WebGL SpinMovie Viewer</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+		<style>
+		body {
+			padding: 0;
+			margin: 0;
+		}
+		</style>
+	</head>
+
+	<body>
+		<div id="viewer-container"></div>
+
+		<script type="text/javascript" src="js/getUrlParams.js"></script>
+		<script type="text/javascript">var _useCompileJS = getUrlParams().compiled === "1";</script>
+		<script type="text/javascript" src="js/embedScripts.js"></script>
+
+		<script type="text/javascript" src="js/connections/SynthConnection.js"></script>
+		<script type="text/javascript" src="js/connections/SynthConnectionDataset.js"></script>
+		<script type="text/javascript" src="js/connections/SynthConnectionCamera.js"></script>
+		<script type="text/javascript" src="js/connections/SynthConnectionTransform.js"></script>
+		<script type="text/javascript" src="js/connections/SynthConnectionPreloader.js"></script>
+		<script type="text/javascript" src="js/connections/SynthConnectionManager.js"></script>
+		<script type="text/javascript" src="js/connections/SynthConnectionViewer.js"></script>
+		<script type="text/javascript" src="js/connections/SynthTransitionStore.js"></script>
+		<script type="text/javascript" src="js/connections/SynthTourViewer.js"></script>
+		<script type="text/javascript" src="js/DebugPanel.js"></script>
+
+		<script type="text/javascript">
+
+		var params = PS.Utils.getUrlParams();
+		var tour = params.tour || "forest.json";
+
+		if (_useStaticStorage) {
+			//readonly storage from json dump
+			PS.API.SimpleStaticStorage.init(_staticStoragePrefix + tour, onStorageInitialized);
+		}
+		else {
+			//node.js + mondb experimental storage
+			PS.API.SimpleAnnotationStorage.init(_annotationStorageURL, _annotationStoragePort, onStorageInitialized);
+		}
+
+		function onStorageInitialized(storage) {
+
+			if (!storage) {
+				PS.DebugPanel.init();
+				PS.DebugPanel.setContent("<p>Please start <strong>utils/AnnotationStorage/_launch.bat</strong> and refresh the page.</p>");
+				return;
+			}
+
+			var container = document.getElementById("viewer-container");
+			var startSynthGuid   = params.guid || "c48a284f-14ef-4cb0-9339-573d62ce2227";
+			var startCameraIndex = params.startAt ? parseInt(params.startAt, 10) : -1;
+
+			//This tour viewer is still experimental (history stack is not implemented: you can only go back once)
+			new Photosynth.SynthTourViewer(container, storage, startSynthGuid, {
+				startCameraIndex: startCameraIndex,
+				pathToWorker: _pathToWorkerParser,
+				displayTargetCameras: false,
+				displayTargetGeometry: true,
+				transitionDuration: 1000
+			});
+
+		}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,19 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: Segoe UI;
+	background-color: white;
+	padding: 10px;
+}
+
+h1 {
+	font-weight: normal;
+	margin-bottom: 20px;
+}
+
+ul {
+	margin-left: 20px;
+}

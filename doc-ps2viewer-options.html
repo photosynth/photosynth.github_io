@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Photosynth.PS2ViewerOptions</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+		<meta charset="utf-8">
+
+		<script type="text/javascript" src="js/getUrlParams.js"></script>
+		<script type="text/javascript">var _useCompileJS = getUrlParams().compiled === "1";</script>
+		<script type="text/javascript" src="js/embedScripts.js"></script>
+
+		<link rel="stylesheet" href="css/doc.css">
+		<style>
+		table.sdk-description tr td:nth-of-type(2) {
+			font-style: italic;
+		}
+		</style>
+
+		<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/styles/default.min.css">
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/highlight.min.js"></script>
+	</head>
+	<body>
+
+		<div id="page-container">
+
+			<h1>PS2ViewerOptions</h1>
+
+			<p>Represents options to customize the synth that is displayed.</p>
+			<br />
+
+			<h2>Properties</h2>
+			<table class="sdk-description">
+				<tr>
+					<th>Name</th>
+					<th>Type</th>
+					<th>Description</th>
+				</tr>
+				<tr>
+					<td>pathToWorker</td>
+					<td>string</td>
+					<td>path to worker js file ('PS2PacketPlayer.worker.min.js')<br/>Default: <strong>""</strong> (you need to provide this value)</td>
+				</tr>
+				<tr>
+					<td>width</td>
+					<td>number</td>
+					<td>width in pixel<br/>Default: <strong>-1</strong> (auto = use container width or 800)</td>
+				</tr>
+				<tr>
+					<td>height</td>
+					<td>number</td>
+					<td>height in pixel<br/>Default: <strong>-1</strong> (auto = use container height or 500)</td>
+				</tr>
+				<tr>
+					<td>autoLoad</td>
+					<td>boolean</td>
+					<td>A boolean value indicating if the viewer should start loading the synth immediately. Set it to false if you want to have a 'click to load' behavior.<br/>Default: <strong>true</strong></td>
+				</tr>
+				<tr>
+					<td>autoStart</td>
+					<td>boolean</td>
+					<td>A boolean value indicating if the viewer should start playing the synth as soon as it's loaded.<br/>Default: <strong>true</strong></td>
+				</tr>
+				<tr>
+					<td>debugMenuEnabled</td>
+					<td>boolean</td>
+					<td>A boolean value indicating if the hidden debug menu is enabled. (type 4 then 2 to see the menu)<br/>Default: <strong>false</strong></td>
+				</tr>
+				<tr>
+					<td>loggingEnabled</td>
+					<td>boolean</td>
+					<td>A boolean value indicating if the viewer should display some debug information in the console<br/>Default: <strong>false</strong></td>
+				</tr>
+				<tr>
+					<td>annotateEnabled</td>
+					<td>boolean</td>
+					<td>A boolean value indicating if the viewer should display an annotate button in the toolbar<br/>Default: <strong>false</strong></td>
+				</tr>
+				<tr>
+					<td>autoResizeEnabled</td>
+					<td>boolean</td>
+					<td>A boolean value indicating if the viewer should resize itself when the browser window is resized (only useful if the viewer is using the whole screen, ie: you initialized it with (width=window.innerWidth and heigth=window.innerHeight)<br/>Default: <strong>false</strong></td>
+				</tr>
+				<tr>
+					<td>presetGPU</td>
+					<td>PresetGPU Object</td>
+					<td>Description missing + need help for Custom mode<br/>Default: <strong>PS.Packet.PresetGPU.Laptop</strong></td>
+				</tr>
+			</table>
+
+
+			<h2>Example</h2>
+			<pre class="brush: js">
+			<code class="js">
+var _container = document.getElementById("viewer-container");
+
+var _viewer = new Photosynth.PS2Viewer(_container, {
+	pathToWorker: "js/PS2PacketPlayer.worker.min.js"
+});
+_viewer.loadGuid("676195e2-64ca-43f5-80ba-a7cb7b10e3aa");
+			</code>
+			</pre>
+
+		</div>
+
+		<script>
+		hljs.initHighlightingOnLoad();
+		</script>
+
+	</body>
+</html>

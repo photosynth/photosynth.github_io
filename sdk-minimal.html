@@ -1,0 +1,111 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>SDK demo</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=11,chrome=1">
+
+		<link rel="stylesheet" type="text/css" href="css/demos.css" />
+		<style type="text/css">
+			body {
+				font-family: Segoe UI;
+				margin: 0px;
+				height: 100%;
+				padding: 10px;
+			}
+			h1, h3 {
+				font-weight: normal;
+			}
+			#viewer-container {
+				position: relative;
+			}
+
+		</style>
+		<script type="text/javascript" src="js/getUrlParams.js"></script>
+		<script type="text/javascript">var _useCompileJS = getUrlParams().compiled === "1";</script>
+		<script type="text/javascript" src="js/embedScripts.js"></script>
+
+	</head>
+
+	<body>
+
+		<h1>Viewer SDK demo</h1>
+		<div id="viewer-container">
+		</div>
+
+		<script type="text/javascript">
+		var _container = document.getElementById("viewer-container");
+
+		var _dataset;
+
+		var _viewer = new Photosynth.PS2Viewer(_container, {
+			width:  1400,
+			height: 800,
+			animateSpeed: 1.0,
+			autoStart: false,
+			pathToWorker: _pathToWorkerParser,
+		});
+		_viewer.addEventListener("camera-changed", function(camera) {
+			console.log(camera);
+		});
+		_viewer.addEventListener("dataset-loaded", function(dataset) {
+			console.log("dataset-loaded");
+			console.log(dataset);
+
+			_dataset = dataset;
+		});
+		_viewer.addEventListener("dataset-rendered", function(dataset) {
+			console.log("dataset-rendered");
+
+			setTimeout(function() {
+				var position = 500;
+				var respectDraggingDirection = false;
+				var closestCamera = _dataset.path.getClosestCamera(position, respectDraggingDirection);
+				_viewer.gotoCamera(closestCamera, {
+					onComplete: function() {
+						console.log("snap to camera");
+					}
+				});
+			}, 2000);
+		});
+		_viewer.addEventListener("animation-start", function() {
+			console.log("animation start");
+		});
+		_viewer.addEventListener("animation-stop", function() {
+			console.log("animation stop");
+		});
+		_viewer.addEventListener("enter-fullscreen", function() {
+			console.log("enter fullscreen");
+		});
+		_viewer.addEventListener("exit-fullscreen", function() {
+			console.log("exit fullscreen");
+		});
+		_viewer.addEventListener("camera-mode-changed", function(mode) {
+			console.log("camera mode: " + mode);
+		});
+		_viewer.addEventListener("geometry-loaded", function() {
+			console.log("geometry loaded"); //fired when reaching 100% and autostart
+		});
+		_viewer.addEventListener("imagery-loaded", function() {
+			console.log("imagery loaded"); //fired when the dataset is really fully loaded (geometry+imagery)
+		});
+		_viewer.addEventListener("position-changed", onPositionChanged);
+
+		_viewer.addEventListener("zoom-level-changed", function(isHomeZoom) {
+			console.log("isHomeZoom: " + isHomeZoom);
+		});
+
+		function onPositionChanged(qIndex) {
+			console.log("path position: " + _dataset.path.fixRange(qIndex));
+		}
+
+		setTimeout(function() {
+			_viewer.removeEventListener("position-changed", onPositionChanged);
+		}, 2000);
+
+		_viewer.loadGuid("96646bc3-250c-4eb3-9016-89175a1a7df4");
+
+		</script>
+
+	</body>
+</html>

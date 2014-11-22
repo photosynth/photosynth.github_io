@@ -1,0 +1,103 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>Gallery viewer</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+		<style type="text/css">
+			body {
+				font-family: Segoe UI;
+				font-weight: normal;
+				margin: 0px;
+				height: 100%;
+				padding: 10px;
+			}
+			h1, h3 {
+				font-weight: normal;
+			}
+			#gallery-container {
+				overflow-y: auto;
+				margin-left: 5px;
+				width: 720px;
+				height: 600px;
+			}
+
+			#gallery-container .thumb {
+				width: 100px;
+				height: 100px;
+				display: inline-block;
+				margin: 0;
+				padding: 0;
+				float: left;
+			}
+
+		</style>
+		<script type="text/javascript" src="js/getUrlParams.js"></script>
+		<script type="text/javascript">var _useCompileJS = getUrlParams().compiled === "1";</script>
+		<script type="text/javascript" src="js/embedScripts.js"></script>
+	</head>
+
+	<body>
+
+		<h1>Gallery viewer</h1>
+		<div id="viewer-container" style="float: left;"></div>
+		<div id="gallery-container" style="float: left;"></div>
+
+		<script type="text/javascript">
+		var _container = document.getElementById("viewer-container");
+
+		var _viewer = new Photosynth.PS2Viewer(_container, {
+			width:  800,
+			height: 600,
+			animateSpeed: 1.0,
+			autoStart: false,
+			pathToWorker: _pathToWorkerParser,
+		});
+
+		var _displayUserGallery = PS.Utils.getUrlParams().favorites === "0";
+
+		if (_displayUserGallery) {
+			PS.API.getListOfUserSynth("david-photosynth-team", {
+				filter: "SynthPackets",
+				onComplete: function(collections) {
+					displayCollections(collections);
+				}
+			});
+		}
+		else {
+			PS.API.getListOfFavoriteUserSynth("ps2-hero", {
+				filter: "SynthPackets",
+				maxItems: 150,
+				onComplete: function(collections) {
+					displayCollections(collections);
+				}
+			});
+		}
+
+		function displayCollections(collections) {
+			if (collections.length > 0) {
+				_viewer.loadGuid(collections[0].guid); //load first ps2
+				collections.sort(function(a, b) { return b.date - a.date; }); //NEW -> OLD by captured date
+
+				var galleryContainer = document.getElementById("gallery-container");
+				collections.forEach(function(c) {
+					var img = document.createElement("img");
+					img.setAttribute("src", c.thumb);
+					img.className = "thumb";
+					img.title = c.name;
+					img.addEventListener("click", (function() {
+						var guid = c.guid;
+						return function() {
+							_viewer.loadGuid(guid);
+						}
+					})(), false);
+					galleryContainer.appendChild(img);
+				});
+			}
+		}
+
+		</script>
+
+	</body>
+</html>

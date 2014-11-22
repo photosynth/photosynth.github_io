@@ -1,0 +1,157 @@
+[
+  {
+    "guid": "11a0c938-ea81-47c2-a140-65cba367d169",
+    "annotations": [
+      {
+        "worldPoint": [
+          -0.8305285079085678,
+          1.1203721129943598,
+          -2.1244535317736184
+        ],
+        "queryPoint": [
+          0.4986309634888212,
+          0.5487723227630993
+        ],
+        "visibility": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24",
+        "visibilityPreset": 3,
+        "radius": 0.272975432211101,
+        "text": "",
+        "dbid": 1,
+        "imgIndex": 20,
+        "surfaceOrientation": [
+          0.7275864630497567,
+          0.48107058564026306,
+          0.2697373351299812,
+          0.4079593076288021
+        ],
+        "transform": {
+          "date": "08/14/14 16:22:22 Pacific Daylight Time",
+          "quality": {
+            "interSynthFraction": 0.478728,
+            "overall": 0.495531,
+            "reconstructedSourceCameras": 3,
+            "reconstructedTargetCameras": 3,
+            "rotationInlierFraction": 0.668464,
+            "rotationOnlyInliers": 248,
+            "rotationValid": true,
+            "scaleValid": true,
+            "scaleVariance": 1.47954,
+            "sourcePureRotation": false,
+            "targetPureRotation": false,
+            "translationValid": true,
+            "validFraction": 0.512924
+          },
+          "source": {
+            "guid": "11a0c938-ea81-47c2-a140-65cba367d169",
+            "intrinsics": [
+              50.6335,
+              1.33179,
+              0.131978,
+              -0.149377
+            ],
+            "orientation": [
+              0.512662,
+              0.537835,
+              0.482132,
+              0.464176
+            ],
+            "position": [
+              14.0955,
+              1.79081,
+              -2.99598
+            ],
+            "sIndex": 20
+          },
+          "target": {
+            "guid": "048b48f0-db27-4a30-a6ff-39b24243bedc",
+            "intrinsics": [
+              49.5287,
+              1.33179,
+              0.014219,
+              -0.014376
+            ],
+            "orientation": [
+              0.66392,
+              0.0494822,
+              0.06198,
+              0.743586
+            ],
+            "position": [
+              1.82984,
+              -6.89243,
+              -0.203839
+            ],
+            "sIndex": 26
+          },
+          "targetToSourceTransform": {
+            "comment": "Move point x in target to y in source: y = s*R*x + t",
+            "rotation": [
+              0.114953,
+              0.193414,
+              0.539855,
+              0.811131
+            ],
+            "scale": 2.68842,
+            "translation": [
+              -3.99432,
+              0.398833,
+              -1.03043
+            ]
+          },
+          "version": 1
+        }
+      },
+      {
+        "worldPoint": [
+          -105.43267802269285,
+          -4.859306455711985,
+          47.1642031130323
+        ],
+        "queryPoint": [
+          0.6582102257953597,
+          0.14161675947934566
+        ],
+        "visibility": "33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67",
+        "visibilityPreset": 3,
+        "radius": 0.04042254017471569,
+        "text": "What is this stuff doing here?",
+        "dbid": 2,
+        "imgIndex": 67,
+        "surfaceOrientation": [
+          0.8412876897803335,
+          -0.05342833969948846,
+          -0.034094763028737755,
+          0.5368593917327525
+        ]
+      }
+    ]
+  },
+  {
+    "guid": "048b48f0-db27-4a30-a6ff-39b24243bedc",
+    "annotations": [
+      {
+        "worldPoint": [
+          0.39881901746351955,
+          -0.027893696959119474,
+          -2.6534699143758647
+        ],
+        "queryPoint": [
+          0.46057331188306583,
+          0.7449747478748446
+        ],
+        "visibility": "23,24,25,26,27,28,29,30,31,32,33,34",
+        "visibilityPreset": 3,
+        "radius": 0.033220839485340645,
+        "text": "QR code",
+        "dbid": 1,
+        "imgIndex": 28,
+        "surfaceOrientation": [
+          0.009260442861342822,
+          -0.0052605718269334795,
+          -0.4939073388648157,
+          0.8694493206323813
+        ]
+      }
+    ]
+  }
+]

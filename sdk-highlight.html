@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Photosynth user library</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+		<meta charset="utf-8">
+
+		<style>
+		* {
+			margin: 0px;
+			padding: 0px;
+		}
+
+		html, body {
+			font: 16px 'wf_segoe-ui_light','Segoe UI Light','Segoe WP Light','Segoe UI','Segoe WP',Tahoma,Arial,sans-serif;
+			overflow: none;
+			-ms-content-zooming: none;
+			-ms-touch-action: none;
+			touch-action: none;
+		}
+
+		#viewer-container {
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+
+		.infobox {
+			border-radius: 20px;
+			padding: 20px;
+			position: absolute;
+			bottom: 10px;
+			left: 10px;
+			z-index: 5;
+			background-color: white;
+			border: 1px solid black;
+		}
+		</style>
+
+		<script type="text/javascript" src="js/getUrlParams.js"></script>
+		<script type="text/javascript">var _useCompileJS = getUrlParams().compiled === "1";</script>
+		<script type="text/javascript" src="js/embedScripts.js"></script>
+		<script type="text/javascript" src="js/DebugPanel.js"></script>
+
+	</head>
+	<body>
+		<div id="viewer-container"></div>
+
+		<script>
+
+		var _params = PS.Utils.getUrlParams();
+		var _guid   = _params.guid || "0eb13837-a617-4d0f-a0f2-a7ed792c92bd";
+		var _startCameraIndex = _params.startat ? parseInt(_params.startat, 10) : -1;
+		var _annotationEditingEnabled = _params.edit ? _params.edit === "1" : true;
+
+		PS.DebugPanel.init();
+
+		if (_useStaticStorage) {
+			//readonly storage from photosynth.net
+			PS.API.SimpleAnnotationProxy.init(onStorageInitialized);
+		}
+		else {
+			//node.js + mondb experimental storage
+			PS.API.SimpleAnnotationStorage.init(_annotationStorageURL, _annotationStoragePort, onStorageInitialized);
+		}
+
+		function onStorageInitialized(storage) {
+			if (!storage) { //test if storage was successfully initialized
+				if (_useStaticStorage) {
+					PS.DebugPanel.appendContent("<p>Error while trying to fetch annotations from <a href='https://www.photosynth.net/'>photosynth.net</a>.</p>");
+				}
+				else {
+					PS.DebugPanel.appendContent("<p>Please start <strong>utils/AnnotationStorage/_launch.bat</strong> and refresh the page if you want to read/write annotations.</p>");
+				}
+				return;
+			}
+
+			//editing is not enabled on read-only storage
+			if (_useStaticStorage && _annotationEditingEnabled) {
+				_annotationEditingEnabled = false;
+				PS.DebugPanel.appendContent("<p>Annotation editing is not enabled on read-only storage. You must use SimpleAnnotationStorage.</p>");
+			}
+
+			if (_annotationEditingEnabled) {
+				PS.API.SimpleSynthLinker.init(_simpleSynthLinkerURL, _simpleSynthLinkerPort, function(linker) {
+					if (!linker) { //test if node synth linking service is running
+						PS.DebugPanel.appendContent("<p>Please start <strong>utils/SynthLinker/_launch.bat</strong> and refresh the page if you want to create synth connections.</p>");
+					}
+				});
+			}
+
+			createViewer(storage);
+		}
+
+		function createViewer(storage) {
+
+			var _container = document.getElementById("viewer-container");
+
+			//create synth viewer
+			var _viewer = new Photosynth.PS2Viewer(_container, {
+				width:  window.innerWidth,
+				height: window.innerHeight,
+				autoStart: false,
+				pathToWorker: _pathToWorkerParser,
+				autoResizeEnabled: true,
+				annotateEnabled: _annotationEditingEnabled,
+				debugMenuEnabled: true
+			});
+
+			_viewer.addEventListener("camera-changed", function(cam, sIndex) {
+				window.history.replaceState(null, null, "?guid="+_guid+"&startat="+sIndex);
+			});
+
+			//create the annotation viewer
+			//(you need to create the annotation viewer before loading a synth = before calling _viewer.loadGuid)
+			var _annotationViewer = new Photosynth.PS2AnnotationViewer(_viewer, {
+				editEnabled: _annotationEditingEnabled,
+				visibleInFullscreen: true
+			});
+
+			//load some annotations in the annotation viewer
+			_annotationViewer.addEventListener("init", function() {
+
+				//loading annotations from storage
+				storage.load(_guid, function (annotations) {
+					_annotationViewer.load(annotations);
+				});
+			});
+
+			if (_annotationEditingEnabled) {
+				var _annotationEditor = new Photosynth.PS2AnnotationEditor(_viewer, _annotationViewer, _container);
+
+				_annotationEditor.addEventListener("annotation-created", function(annotation, thumbInfo, callback) {
+					storage.insert(_guid, annotation, thumbInfo, function(dbid) {
+						callback(true, dbid); //first parameter = succeed or not
+					});
+				});
+
+				_annotationEditor.addEventListener("annotation-edited", function(annotation, thumbInfo, callback) {
+					storage.update(_guid, annotation, function(dbid) {
+						callback(true, dbid);
+					});
+				});
+
+				_annotationEditor.addEventListener("annotation-delete", function(annotation, callback) {
+					if (window.confirm("Do you really want to delete this annotation ?")) {
+						callback(true); //this will remove the annotation from the viewer
+
+						storage.remove(_guid, annotation);
+					}
+					else {
+						callback(false);
+					}
+				});
+
+				_annotationEditor.addEventListener("synth-connection-requested", function(request, dbid) {
+					request.source.guid = _guid;
+					request.source.annotationDBID = dbid;
+
+					//create a connection between 2 synths
+					PS.API.SimpleSynthLinker.create(request);
+				});
+			}
+
+			//load the synth in the viewer
+			_viewer.loadGuid(_guid, {
+				startCameraIndex: _startCameraIndex
+			});
+		}
+
+		</script>
+
+	</body>
+</html>

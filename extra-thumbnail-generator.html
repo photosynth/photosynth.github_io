@@ -1,0 +1,113 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>Thumbnail generator</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+		<link rel="stylesheet" type="text/css" href="css/demos.css" />
+		<style type="text/css">
+			body {
+				font-family: Segoe UI;
+				font-weight: normal;
+				margin: 0px;
+				height: 100%;
+				padding: 10px;
+			}
+			h1, h3 {
+				font-weight: normal;
+			}
+			#viewer-container {
+				position: relative;
+			}
+
+			div.ui {
+				margin-top: 10px;
+			}
+
+			button {
+				padding-right: 10px;
+				padding-left: 10px;
+				padding-top: 3px;
+				padding-bottom: 3px;
+			}
+
+			#info {
+				display: inline-block;
+			}
+		</style>
+		<script type="text/javascript" src="js/getUrlParams.js"></script>
+		<script type="text/javascript">var _useCompileJS = getUrlParams().compiled === "1";</script>
+		<script type="text/javascript" src="js/embedScripts.js"></script>
+		<script type="text/javascript" src="js/ThumbnailGenerator.js"></script>
+		<script type="text/javascript" src="js/DebugPanel.js"></script>
+
+	</head>
+
+	<body>
+
+		<h1>Animated thumbnail generator</h1>
+		<div id="viewer-container">
+		</div>
+
+		<div class="ui">
+			<button id="generate" disabled>Generate thumbnail</button>
+			<div id="info"></div>
+		</div>
+
+		<script type="text/javascript">
+		var container = document.getElementById("viewer-container");
+
+		PS.DebugPanel.init();
+		PS.API.SimpleFileWriter.init(_simpleFileWriterUrl, _simpleFileWriterPort, function(writer) {
+			if (!writer) {
+				PS.DebugPanel.appendContent("<p>Please start <strong>utils/FileWriter/_launch.bat</strong> and refresh the page if you want to save thumbnails.</p>");
+			}
+		});
+
+		var _guid = "19d5cf2b-77ed-439f-ac21-d3046320384c";
+
+		var _width  = 640;
+		var _height = 360;
+
+		var _thumbnailGenerator;
+
+		var _viewer = new Photosynth.PS2Viewer(container, {
+			width:  _width,
+			height: _height,
+			animateSpeed: 1.0,
+			autoStart: false,
+			screenshotEnabled: true,
+			pathToWorker: _pathToWorkerParser,
+		});
+
+		_viewer.addEventListener("dataset-rendered", function(dataset) {
+
+			var scissor = _viewer.getInternal().packetViewer.renderer.getCroppingInformations();
+
+			_thumbnailGenerator = new ThumbnailGenerator({
+				width:  scissor.w,
+				height: scissor.h,
+				nbScreenshots: 20,
+				baseName: _guid,
+				onUpdate: function(processed, total) {
+					document.getElementById("info").innerHTML = processed + " / " + total;
+				}
+			});
+
+		});
+
+		_viewer.addEventListener("geometry-loaded", function() {
+			var button = document.getElementById("generate");
+			button.disabled = false;
+			button.addEventListener("click", function() {
+				_thumbnailGenerator.init(_viewer.getInternal().packetViewer);
+			}, false);
+		});
+
+		_viewer.loadGuid(_guid);
+
+		</script>
+
+	</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>Demo - Photosynth Player Minimal</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<style type="text/css">
+			body {
+				color: black;
+				font-family:Arial;
+				font-size:13px;
+				font-weight: normal;
+				margin: 0px;
+				padding: 0px;
+				overflow: hidden;
+				background-color: #313131;
+			}
+
+			#container {
+				background-color: black;
+				text-align: center;
+				position: relative;
+			}
+
+			#container canvas {
+				display: inline-block;
+				cursor: -webkit-grab;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="container"></div>
+
+		<script type="text/javascript" src="js/getUrlParams.js"></script>
+		<script type="text/javascript">var _useCompileJS = getUrlParams().compiled === "1";</script>
+		<script type="text/javascript" src="js/embedScripts.js"></script>
+
+		<script type="text/javascript">
+
+		var containerDiv = document.getElementById("container");
+
+		var renderingWidth     = window.innerWidth;
+		var renderingHeight    = window.innerHeight;
+
+		var player;
+		var reversePlayer;
+
+		var nbLoaded = 0;
+		var reversePlayerActive = false;
+		var callbacks = [];
+
+		function getBaseUrl(guid) {
+			return 'https://cdn.photosynth.net/ps2/'+guid+'/packet/';
+		}
+
+		function bothLoaded() {
+
+			callbacks['callbackNormalToReverse'] = (function() {
+
+				var nbPoints = player.packetViewer.getPath().nbPoints;
+				var nbReversePoints = reversePlayer.packetViewer.getPath().nbPoints;
+
+				return function(qIndex) {
+					if (reversePlayerActive)
+						return;
+					reversePlayer.packetViewer.setPosition((1.0-qIndex/nbPoints)*nbReversePoints);
+				}
+			})();
+
+			callbacks['callbackReverseToNormal'] = (function() {
+				var nbPoints = player.packetViewer.getPath().nbPoints;
+				var nbReversePoints = reversePlayer.packetViewer.getPath().nbPoints;
+
+				return function(qIndex) {
+					if (!reversePlayerActive)
+						return;
+					player.packetViewer.setPosition((1.0-qIndex/nbReversePoints)*nbPoints);
+				}
+			})();
+
+		}
+
+		function createPlayer(div, w, h, url, callbackName) {
+			return new PS.Packet.Player(div, {
+				packetURL: url,
+				width: w,
+				height: h,
+				autoLoad: true,
+				corsEnabled: true,
+				autoResizeEnabled: false,
+				viewer: {
+					autoStartEnabled: false,
+					pathToWorker: _pathToWorkerParser,
+					onJsonParsed: function(v) {
+						var firstDominantColor = v.getDominantColors()[0];
+						dominantColor = "rgb("+firstDominantColor[0]+","+firstDominantColor[1]+","+firstDominantColor[2]+")";
+						div.style.backgroundColor = dominantColor;
+					},
+					onCanvasCreated: function() {
+						nbLoaded++;
+						if (nbLoaded == 2) {
+							bothLoaded();
+						}
+					},
+					onPositionChanged: function(qIndex) {
+						if (callbacks[callbackName]) {
+							callbacks[callbackName](qIndex);
+						}
+					}
+				},
+				metadata: {
+					enableGlobalView: false,
+					enableFullscreen: false,
+					enableLicense: false,
+					enablePlayToggle: false
+				}
+			});
+		}
+
+		var w = parseInt(window.innerWidth / 2, 10);
+		var h = parseInt(w*9/16, 10);
+
+		player        = createPlayer(containerDiv, w, h, getBaseUrl('4d96b185-b921-40d5-a1ef-a668eff75fb9'), 'callbackNormalToReverse');
+		reversePlayer = createPlayer(containerDiv, w, h, getBaseUrl('179b46c4-ca72-46b0-a96f-5c49d8af550c'), 'callbackReverseToNormal');
+
+		var div = player.getDiv();
+		div.style.top = 0;
+		div.style.margin = 0;
+		div.addEventListener("mouseover", function() {
+			reversePlayerActive = false;
+		}, false);
+
+		div = reversePlayer.getDiv();
+		div.style.top = "-"+h+"px";
+		div.style.left = w + "px";
+		div.style.margin = 0;
+		div.addEventListener("mouseover", function() {
+			reversePlayerActive = true;
+		}, false);
+
+		</script>
+	</body>
+</html>

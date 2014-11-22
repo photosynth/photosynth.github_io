@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>Progress.js</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<link rel="stylesheet" type="text/css" href="css/demos.css" />
+		<style type="text/css">
+		button {
+			min-width: 40px;
+		}
+		</style>
+	</head>
+
+	<body>
+
+		<script type="text/javascript" src="js/getUrlParams.js"></script>
+		<script type="text/javascript">var _useCompileJS = getUrlParams().compiled === "1";</script>
+		<script type="text/javascript" src="js/embedScripts.js"></script>
+
+		<h1>Progress.js</h1>
+		<br />
+		<p>This is a minimal progress bar used by the 42 hidden menu to indicate the progress of HD images loading.</p>
+
+		<h3 style="margin-top: 20px;">Examples</h3>
+		<ul>
+			<li>Red top bar 2px with tween Quint.easeIn <button onclick="goRed()"> Try </button>.</li>
+			<li>Green bottom bar 4px with tween Bounce.easeOut <button onclick="goGreen()"> Try </button>.</li>
+		</ul>
+
+		<script type="text/javascript">
+
+			function goRed() {
+				PS.Progress.init({
+					color: "red",
+					thickness: 2,
+					position: "top"
+				});
+
+				new PS.Fx.Tween({
+					duration: 2000,
+					transition: PS.Fx.Transitions.Quint.easeIn,
+					onUpdate: function(value) {
+						PS.Progress.set(value); //value range = [0,1]
+					},
+					onComplete: function() {
+						PS.Progress.done();
+					}
+				}).start();
+			}
+
+			function goGreen() {
+				PS.Progress.init({
+					color: "green",
+					thickness: 3,
+					position: "bottom"
+				});
+
+				new PS.Fx.Tween({
+					duration: 2000,
+					transition: PS.Fx.Transitions.Bounce.easeOut,
+					onUpdate: function(value) {
+						PS.Progress.set(value); //value range = [0,1]
+					},
+					onComplete: function() {
+						PS.Progress.done();
+					}
+				}).start();
+			}
+		</script>
+	</body>
+</html>
