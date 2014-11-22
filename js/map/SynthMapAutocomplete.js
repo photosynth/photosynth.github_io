@@ -5,7 +5,7 @@ PS.SynthMapAutoComplete = new function() {
 		$(input).autocomplete({
 			source: function (request, response) {
 				$.ajax({
-					url: "http://dev.virtualearth.net/REST/v1/Locations",
+					url: "https://dev.virtualearth.net/REST/v1/Locations",
 					dataType: "jsonp",
 					data: {
 						key: key,
