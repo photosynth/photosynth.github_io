@@ -7,19 +7,20 @@ This information is only useful for the person in charge of this github repo (th
 
 - copy everything from the web folder of https://github.com/photosynth/PhotosynthViewer into this folder
 - copy utils/AnnotationStorage/dump/*.json from https://github.com/photosynth/PhotosynthViewer into synths/
-- edit js/embedScripts.js:
-	- run grunt build from your local repo of https://github.com/photosynth/PhotosynthViewer then copy the build folder at the root.
-	- set _useStaticStorage to true
-	- change _staticStoragePrefix to "synths/"
-	- override _useCompileJS to true by adding the following line:
+- run grunt build from your local repo of https://github.com/photosynth/PhotosynthViewer then copy the build folder at the root.
+
+## edit js/embedScripts.js:
+- set _useStaticStorage to true
+- change _staticStoragePrefix to "synths/"
+- override _useCompileJS to true by adding the following line:
 ```
 _useCompileJS = true; //just before the 'if (_useCompileJS)' test
 ```
-	- provide a bing map key:
+- provide a bing map key:
 ```
 var _bingMapKey = 'ArNMeVPrTEWs-raRBo8iJCBCiQNwWCRHOrJnuXekWu2EteapRA2fVBvMo_THeiqu';
 ```
-	- change the path of minified css/js to match the location of your local build:
+- change the path of minified css/js to match the location of your local build:
 ```
 if (_useCompileJS) {
 	_pathToWorkerParser = "build/js/PS2PacketPlayer.worker.min.js";
