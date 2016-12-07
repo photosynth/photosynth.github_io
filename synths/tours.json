@@ -1,6 +1,5 @@
 {
 	"tours": [
-		{ "guid": "11a0c938-ea81-47c2-a140-65cba367d169", "label": "Heart in San Francisco", "startAt": 0, "json": "san_francisco_heart.json"},
 		{ "guid": "c48a284f-14ef-4cb0-9339-573d62ce2227", "label": "Forest", "startAt": 28, "json": "forest.json"},
 		{ "guid": "bd899237-7256-4605-a40e-78c50531f47f", "label": "Puy-en-Velay", "startAt": 0, "json": "puy_en_velay.json"}
 	]
